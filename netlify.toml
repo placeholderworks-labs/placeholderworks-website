@@ -1,0 +1,16 @@
+# Netlify build configuration — Placeholder landing (Vite + React + pnpm).
+# With this file committed, "Import from Git" needs no manual build settings.
+
+[build]
+  command = "pnpm build"   # runs `tsc -b && vite build`
+  publish = "dist"         # Vite's build output
+
+[build.environment]
+  NODE_VERSION = "20"      # build with Node 20 (project targets modern Node)
+
+# Single-page site: serve index.html for any path that isn't a built asset.
+# (Static files still resolve first, so JS/CSS/fonts/images are unaffected.)
+[[redirects]]
+  from = "/*"
+  to = "/index.html"
+  status = 200
