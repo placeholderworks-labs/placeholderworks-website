@@ -1,0 +1,163 @@
+@import "tailwindcss";
+
+/* ==========================================================================
+   Design tokens — locked in CLAUDE.md §4. Change only here, deliberately.
+   ========================================================================== */
+@theme {
+  /* Color — dark-first, never pure black */
+  --color-bg-0: #08090a; /* page */
+  --color-bg-1: #0d0e10; /* raised surface */
+  --color-bg-2: #131416; /* hover / active surface */
+  --color-line: #1e2023; /* hairline borders */
+
+  --color-fg: #ecebe7; /* primary text — warm off-white, NOT #fff */
+  --color-fg-2: #9a9b9e; /* secondary */
+  --color-fg-3: #626366; /* tertiary — never small body copy (contrast) */
+
+  --color-accent: #c558b0; /* solid mid — flat UI, marks, focus ring (AA on bg-0) */
+  --color-accent-fg: #f5f1ef; /* text on accent (near-white) */
+  --accent-from: #c92f47; /* crimson (deepened so white CTA text stays AA) */
+  --accent-to: #7c3aed; /* violet */
+  --accent-gradient: linear-gradient(120deg, var(--accent-from), var(--accent-to));
+
+  /* Typography — one coherent pairing, no third font */
+  --font-sans: "Geist Variable", system-ui, sans-serif;
+  --font-mono: "Geist Mono Variable", ui-monospace, monospace;
+
+  /* Radius — tight and quiet */
+  --radius-sm: 4px;
+  --radius-md: 8px;
+  --radius-lg: 12px;
+
+  /* Fluid editorial type scale (clamp: min · preferred · max) */
+  --text-hero: clamp(2.75rem, 1rem + 7vw, 7rem);
+  --text-hero--line-height: 0.94;
+  --text-hero--letter-spacing: -0.035em;
+  --text-hero--font-weight: 600;
+
+  --text-display: clamp(2.25rem, 1rem + 4.5vw, 4.25rem);
+  --text-display--line-height: 1;
+  --text-display--letter-spacing: -0.03em;
+  --text-display--font-weight: 600;
+
+  --text-title: clamp(1.6rem, 1rem + 2vw, 2.5rem);
+  --text-title--line-height: 1.1;
+  --text-title--letter-spacing: -0.02em;
+  --text-title--font-weight: 600;
+
+  --text-subtitle: clamp(1.15rem, 0.9rem + 0.9vw, 1.5rem);
+  --text-subtitle--line-height: 1.35;
+  --text-subtitle--letter-spacing: -0.01em;
+  --text-subtitle--font-weight: 500;
+
+  --text-body: 1.0625rem; /* 17px baseline */
+  --text-body--line-height: 1.6;
+
+  --text-caption: 0.8125rem; /* 13px */
+  --text-caption--line-height: 1.45;
+}
+
+/* The Apple spacing rhythm (4/8/16/24/48/96) maps to Tailwind's default
+   scale: space-1=4 · space-2=8 · space-4=16 · space-6=24 · space-12=48 ·
+   space-24=96. Section gaps use space-24+ so the page breathes. */
+
+/* ==========================================================================
+   Base layer
+   ========================================================================== */
+@layer base {
+  :root {
+    color-scheme: dark;
+  }
+
+  html {
+    -webkit-text-size-adjust: 100%;
+    scroll-behavior: auto; /* Lenis owns smooth scroll */
+  }
+
+  body {
+    background-color: var(--color-bg-0);
+    color: var(--color-fg);
+    font-family: var(--font-sans);
+    font-synthesis-weight: none;
+    text-rendering: optimizeLegibility;
+    -webkit-font-smoothing: antialiased;
+    -moz-osx-font-smoothing: grayscale;
+    font-feature-settings: "cv01", "ss03", "calt";
+    overflow-x: hidden;
+  }
+
+  ::selection {
+    background-color: var(--color-accent);
+    color: var(--color-accent-fg);
+  }
+
+  /* Visible, on-brand focus — never remove outlines */
+  :focus-visible {
+    outline: 2px solid var(--color-accent);
+    outline-offset: 3px;
+    border-radius: var(--radius-sm);
+  }
+
+  /* Genuinely calmer experience when requested */
+  @media (prefers-reduced-motion: reduce) {
+    *,
+    *::before,
+    *::after {
+      animation-duration: 0.001ms !important;
+      animation-iteration-count: 1 !important;
+      transition-duration: 0.001ms !important;
+      scroll-behavior: auto !important;
+    }
+  }
+}
+
+/* ==========================================================================
+   Custom utilities (Tailwind v4 @utility)
+   ========================================================================== */
+
+/* Accent gradient fill — the crimson→violet "mix", for prominent surfaces */
+@utility accent-gradient {
+  background-image: var(--accent-gradient);
+}
+
+/* Accent gradient as text (headline accent word, etc.) */
+@utility accent-text {
+  background-image: var(--accent-gradient);
+  -webkit-background-clip: text;
+  background-clip: text;
+  color: transparent;
+}
+
+/* Selective glass — dark translucent surface, subtle blur, hairline border */
+@utility glass {
+  background-color: color-mix(in srgb, var(--color-bg-1) 62%, transparent);
+  backdrop-filter: blur(14px) saturate(1.2);
+  -webkit-backdrop-filter: blur(14px) saturate(1.2);
+  border: 1px solid color-mix(in srgb, var(--color-line) 80%, transparent);
+}
+
+/* Mono eyebrow / label — technical accent (Geist Mono, tracked, uppercase) */
+@utility eyebrow {
+  font-family: var(--font-mono);
+  font-size: 0.75rem;
+  font-weight: 500;
+  letter-spacing: 0.16em;
+  text-transform: uppercase;
+  color: var(--color-fg-3);
+}
+
+/* Comfortable reading measure */
+@utility measure {
+  max-width: 42rem; /* ~672px */
+}
+
+/* Very subtle film grain — atmosphere, applied to a fixed overlay element */
+@utility grain {
+  position: fixed;
+  inset: 0;
+  z-index: 50;
+  pointer-events: none;
+  opacity: 0.035;
+  mix-blend-mode: overlay;
+  background-image: url("data:image/svg+xml,%3Csvg xmlns='http://www.w3.org/2000/svg' width='140' height='140'%3E%3Cfilter id='n'%3E%3CfeTurbulence type='fractalNoise' baseFrequency='0.9' numOctaves='2' stitchTiles='stitch'/%3E%3C/filter%3E%3Crect width='100%25' height='100%25' filter='url(%23n)'/%3E%3C/svg%3E");
+}
