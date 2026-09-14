@@ -1,4 +1,4 @@
-import { scrollToId } from "@/hooks/useLenis";
+import { scrollToId } from "@/lib/utils";
 import { SECTIONS } from "@/lib/sections";
 
 const NAV = SECTIONS.filter((s) => s.nav);
@@ -13,7 +13,7 @@ export function Footer() {
   };
 
   return (
-    <footer className="border-t border-line">
+    <footer className="border-t border-line bg-bg-1">
       <div className="mx-auto w-full max-w-6xl px-6 py-16 md:px-10 md:py-20 lg:px-16">
         <div className="flex flex-col justify-between gap-12 md:flex-row md:items-end">
           <div>
