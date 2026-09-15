@@ -69,7 +69,7 @@ export function Invitation() {
   }
 
   return (
-    <Section id="contact" index="05" eyebrow="Invitation">
+    <Section id="contact" index="05" eyebrow="Invitation" tight>
       <div className="grid gap-14 lg:grid-cols-[1fr_1fr] lg:gap-24">
         <div>
           <h2 className="text-title text-fg">Let's discuss a problem.</h2>

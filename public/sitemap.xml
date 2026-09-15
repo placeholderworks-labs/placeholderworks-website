@@ -1,0 +1,71 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<urlset xmlns="http://www.sitemaps.org/schemas/sitemap/0.9">
+  <url>
+    <loc>https://placeholderworks.com</loc>
+    <lastmod>2026-09-15T00:00:00.000Z</lastmod>
+    <changefreq>weekly</changefreq>
+    <priority>1.0</priority>
+  </url>
+
+  <!--
+    The site is a single page: the nav points at anchors (#process,
+    #capabilities, #work, #contact), not at routes. Fragments are not separate
+    URLs to a crawler, so they are deliberately not listed here.
+
+    The entries below are staged for when those pages actually exist. They are
+    commented out because netlify.toml serves /* as index.html with status 200,
+    so each of these paths would currently return the homepage under its own
+    URL. Nine URLs with identical content reads to a crawler as duplicate
+    content or a soft 404, which is worse than a clean miss. Uncomment each
+    block as its page ships, and set lastmod to the date it shipped.
+
+  <url>
+    <loc>https://placeholderworks.com/our-services</loc>
+    <lastmod>2026-09-15T00:00:00.000Z</lastmod>
+    <changefreq>weekly</changefreq>
+    <priority>0.9</priority>
+  </url>
+  <url>
+    <loc>https://placeholderworks.com/portfolio</loc>
+    <lastmod>2026-09-15T00:00:00.000Z</lastmod>
+    <changefreq>weekly</changefreq>
+    <priority>0.8</priority>
+  </url>
+  <url>
+    <loc>https://placeholderworks.com/research</loc>
+    <lastmod>2026-09-15T00:00:00.000Z</lastmod>
+    <changefreq>weekly</changefreq>
+    <priority>0.8</priority>
+  </url>
+  <url>
+    <loc>https://placeholderworks.com/faq</loc>
+    <lastmod>2026-09-15T00:00:00.000Z</lastmod>
+    <changefreq>weekly</changefreq>
+    <priority>0.9</priority>
+  </url>
+  <url>
+    <loc>https://placeholderworks.com/our-blogs</loc>
+    <lastmod>2026-09-15T00:00:00.000Z</lastmod>
+    <changefreq>daily</changefreq>
+    <priority>0.8</priority>
+  </url>
+  <url>
+    <loc>https://placeholderworks.com/contact-us</loc>
+    <lastmod>2026-09-15T00:00:00.000Z</lastmod>
+    <changefreq>monthly</changefreq>
+    <priority>0.7</priority>
+  </url>
+  <url>
+    <loc>https://placeholderworks.com/privacy</loc>
+    <lastmod>2026-09-15T00:00:00.000Z</lastmod>
+    <changefreq>yearly</changefreq>
+    <priority>0.3</priority>
+  </url>
+  <url>
+    <loc>https://placeholderworks.com/terms</loc>
+    <lastmod>2026-09-15T00:00:00.000Z</lastmod>
+    <changefreq>yearly</changefreq>
+    <priority>0.3</priority>
+  </url>
+  -->
+</urlset>

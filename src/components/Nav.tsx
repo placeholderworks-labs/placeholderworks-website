@@ -1,6 +1,6 @@
 import { useEffect, useState } from "react";
 import { AnimatePresence, motion } from "motion/react";
-import { Menu, X } from "lucide-react";
+import { ArrowUpRight, Menu, X } from "lucide-react";
 import { SECTIONS } from "@/lib/sections";
 import { scrollToId } from "@/lib/utils";
 import { fade } from "@/lib/motion";
@@ -49,15 +49,21 @@ export function Nav() {
       )}
     >
       <div className="relative z-50 mx-auto flex max-w-6xl items-center justify-between px-6 md:px-10 lg:px-16">
+        {/* The identity lives in the hero band below, so this slot carries a
+            Home control instead of a second wordmark. Accent fill: white on
+            crimson is 5.2:1, so it holds AA over the band and over white.
+            Hover inverts against whichever ground is behind it. */}
         <a
           href="#opening"
           onClick={go("opening")}
           className={cn(
-            "mono-ui transition-colors",
-            scrolled ? "text-fg" : "text-white"
+            "mono-ui border border-accent bg-accent px-4 py-3 text-accent-fg transition-colors",
+            scrolled
+              ? "hover:border-fg hover:bg-fg"
+              : "hover:border-white hover:bg-white hover:text-fg"
           )}
         >
-          &lt;Placeholder&gt;
+          Home
         </a>
 
         <nav className="hidden items-center md:flex" aria-label="Primary">
@@ -80,12 +86,21 @@ export function Nav() {
             ))}
           </ul>
 
+          {/* White cell. Over the band the white fill is the contrast; once the
+              nav turns white it would disappear, so there it keeps the hairline
+              the other links use and reads as the last cell in the row. */}
           <a
             href="#contact"
             onClick={go("contact")}
-            className="mono-ui ml-6 border border-accent bg-accent px-4 py-3 text-accent-fg transition-colors hover:border-fg hover:bg-fg"
+            className={cn(
+              "mono-ui ml-6 inline-flex items-center gap-2 border px-4 py-3 transition-colors",
+              scrolled
+                ? "border-line bg-bg-0 text-fg hover:border-fg hover:bg-fg hover:text-bg-0"
+                : "border-white bg-white text-fg hover:bg-transparent hover:text-white"
+            )}
           >
             Contact
+            <ArrowUpRight size={14} aria-hidden />
           </a>
         </nav>
 

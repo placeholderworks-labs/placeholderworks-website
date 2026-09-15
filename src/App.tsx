@@ -6,6 +6,7 @@ import { Process } from "@/sections/Process";
 import { Capabilities } from "@/sections/Capabilities";
 import { Work } from "@/sections/Work";
 import { Invitation } from "@/sections/Invitation";
+import { Wordmark } from "@/components/Wordmark";
 import { Footer } from "@/sections/Footer";
 
 export default function App() {
@@ -29,6 +30,7 @@ export default function App() {
         <Invitation />
       </main>
 
+      <Wordmark />
       <Footer />
     </MotionConfig>
   );

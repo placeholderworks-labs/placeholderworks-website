@@ -11,6 +11,12 @@ interface SectionProps {
   contained?: boolean;
   /** Hairline rule across the top of the section. */
   rule?: boolean;
+  /**
+   * Pull the vertical rhythm in. The default gap is set for sections that sit
+   * between two other arguments; the closing section needs less air around it,
+   * since the footer furniture below already ends the page.
+   */
+  tight?: boolean;
   children: ReactNode;
 }
 
@@ -29,13 +35,15 @@ export function Section({
   className,
   contained = true,
   rule = true,
+  tight = false,
   children,
 }: SectionProps) {
   return (
     <section
       id={id}
       className={cn(
-        "relative scroll-mt-20 py-28 md:py-36 lg:py-44",
+        "relative scroll-mt-20",
+        tight ? "py-20 md:py-24 lg:py-28" : "py-28 md:py-36 lg:py-44",
         rule && "border-t border-line",
         className
       )}

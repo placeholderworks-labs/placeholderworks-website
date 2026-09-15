@@ -108,8 +108,23 @@ export function Hero() {
             opt back in. */}
         <div className="pointer-events-none relative mx-auto flex h-full w-full max-w-6xl items-end justify-between gap-6 px-6 pb-8 md:px-10 md:pb-10 lg:px-16">
           <div className="flex items-center gap-4">
-            <span className="text-2xl font-semibold tracking-tight md:text-3xl">
-              Placeholder<span className="text-accent">.</span>
+            <span className="flex items-center gap-3 text-2xl font-semibold tracking-tight md:text-3xl">
+              {/* The PNG carries the ink ground, so on the band it reads as the
+                  crimson mark alone. alt is empty — the wordmark beside it
+                  already names us, and a second label would read twice. */}
+              <img
+                src="/images/favicon.png"
+                alt=""
+                width={40}
+                height={40}
+                className="h-9 w-9 shrink-0 md:h-10 md:w-10"
+              />
+              <span>
+                {/* Brackets sit back so the name carries the weight. Accent is
+                    only ~3.6:1 on ink, so it is never used for type here. */}
+                <span className="text-white/50">&lt;</span>Placeholder
+                <span className="text-white/50">&gt;</span>
+              </span>
             </span>
             <span className="mono-ui border border-white/25 px-2 py-1 text-white/60">
               AI Engineering
