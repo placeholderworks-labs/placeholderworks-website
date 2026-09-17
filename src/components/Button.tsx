@@ -1,5 +1,6 @@
 import type { MouseEventHandler, ReactNode } from "react";
 import { cn } from "@/lib/utils";
+import { Link } from "@/components/Link";
 
 type Variant = "primary" | "secondary" | "tertiary";
 
@@ -59,8 +60,12 @@ export function Button({
   const classes = cn(BASE, variantClasses(variant), className);
 
   if (href) {
+    // Same-origin paths route in-app; hashes, mailto: and external URLs are
+    // left to the browser. `Link` keeps the real href either way.
+    const Tag = href.startsWith("/") ? Link : "a";
+
     return (
-      <a
+      <Tag
         href={href}
         target={target}
         rel={rel}
@@ -69,7 +74,7 @@ export function Button({
         {...aria}
       >
         {children}
-      </a>
+      </Tag>
     );
   }
 

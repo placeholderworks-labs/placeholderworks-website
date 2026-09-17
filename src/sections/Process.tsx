@@ -1,4 +1,13 @@
 import type { CSSProperties } from "react";
+import {
+  Blocks,
+  DraftingCompass,
+  Repeat,
+  Search,
+  ServerCog,
+  Waypoints,
+  type LucideIcon,
+} from "lucide-react";
 import { Section } from "@/components/Section";
 import { useSequenceProgress } from "@/hooks/useSequenceProgress";
 import { cn } from "@/lib/utils";
@@ -7,6 +16,11 @@ interface Step {
   n: string;
   title: string;
   body: string;
+  /**
+   * Lights with the rail. Decorative only — the title says what the step is,
+   * so the mark is hidden from assistive tech rather than labelled.
+   */
+  icon: LucideIcon;
 }
 
 /** Numbering is earned here — this is a real, ordered sequence. */
@@ -15,31 +29,37 @@ const STEPS: Step[] = [
     n: "001",
     title: "Discovery",
     body: "We start with the problem and the constraints, not the model.",
+    icon: Search,
   },
   {
     n: "002",
     title: "Design",
     body: "Architecture, data flow, evals — and the smallest thing that proves value.",
+    icon: DraftingCompass,
   },
   {
     n: "003",
     title: "Build",
     body: "Applications, agents and LLM integrations, engineered like software that has to last.",
+    icon: Blocks,
   },
   {
     n: "004",
     title: "Integration",
     body: "Wired into your stack, your data, and the people already doing the work.",
+    icon: Waypoints,
   },
   {
     n: "005",
     title: "Production",
     body: "Deployed and hardened. Latency, cost and failure modes handled before launch.",
+    icon: ServerCog,
   },
   {
     n: "006",
     title: "Iteration",
     body: "Measured against the evals, improved from real usage. Shipping is the start.",
+    icon: Repeat,
   },
 ];
 
@@ -95,6 +115,7 @@ export function Process() {
           >
             {STEPS.map((step, i) => {
               const active = i < filled;
+              const Icon = step.icon;
 
               return (
                 <li
@@ -123,7 +144,7 @@ export function Process() {
 
                   <div
                     aria-hidden
-                    className="h-[3px] bg-line"
+                    className="h-[5px] bg-line"
                     style={{ "--i": i } as CSSProperties}
                   >
                     <div
@@ -132,11 +153,21 @@ export function Process() {
                     />
                   </div>
 
+                  {/* Mark, then name — both light with the rail below them, on
+                      the same beat, so the step reads as one thing arriving. */}
                   <div className="px-4 pb-8 pt-5">
+                    <Icon
+                      aria-hidden
+                      strokeWidth={1.5}
+                      className={cn(
+                        "size-5 transition-colors duration-150",
+                        active ? "text-accent" : "text-fg-3"
+                      )}
+                    />
                     <h3
                       className={cn(
-                        "text-lg font-semibold tracking-tight transition-colors duration-150",
-                        active ? "text-fg" : "text-fg-3"
+                        "mt-4 text-lg font-semibold tracking-tight transition-colors duration-150",
+                        active ? "text-accent" : "text-fg-3"
                       )}
                     >
                       {step.title}

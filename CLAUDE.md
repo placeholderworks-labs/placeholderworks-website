@@ -155,12 +155,26 @@ still moves the page by exactly what the user asked for; and render in its final
 complete, static state under `prefers-reduced-motion`, with no added page height at
 all in that mode. Colour must not be the only carrier of the information.
 
+The indicator **may** be damped — eased toward the scroll position rather than pinned
+to it 1:1 — since a wheel notch arrives as one ~100px jump and an undamped rail jumps
+with it. This is not retiming the scroll: the page still goes exactly where the wheel
+sent it, and only the indicator glides after it. Keep the settle inside the 150–350ms
+feedback band, use a curve that cannot overshoot, and make sure it comes to a complete
+stop — an indicator still easing at rest is ambient motion by another name.
+
 The sequence **may** hold the section still while it plays, by way of a sticky child
 inside a taller runway. The hold buys legibility — without it the fill is over before
-it registers — but it is strictly budgeted: **at most ~1.2 viewports** of extra height,
+it registers — but it is strictly budgeted: **at most ~2.5 viewports** of extra height,
 with the fill occupying only the middle of it so the section comes to rest before the
 rail starts and stays at rest once it is full. Those two pauses are what separate a
 deliberate beat from a page that feels stuck. Anything longer is hijacking.
+
+Read that budget per segment, not whole. The Process rail divides it six ways, and a
+sequence that is comfortable end to end can still flick past any one segment too fast
+to watch — which is the failure the hold exists to prevent, so the per-segment number
+is the one to judge. The two rest pauses are the opposite: they are absolute, and a
+beat does not get longer because the sequence did. Expressed as fractions of the hold
+they must shrink as it grows, or the section reads as stalled at both ends.
 
 Where the row is too wide for the viewport, that same progress **may** also walk the
 row sideways, so the reader only ever scrolls in one direction and never has to swipe.
@@ -193,6 +207,26 @@ scroll-linked value: one crossfade, nothing per frame, no intermediate state eve
 held. It reverses on the way back up, and under `prefers-reduced-motion` the resting
 state renders outright (see `useInView`).
 
+**Exception 5 — the hero wordmark cycle.** The mark in the dark band cycles
+`<PLACEHOLDER> → <DESIGN> → <ARCHITECT> → <BUILD> → <DEPLOY>`, each word
+dissolving into ASCII fragments and reconstructing a character at a time (see
+`useWordCycle`). It exists because the identity was the one inert thing in a band
+whose entire character is motion — and because the verbs state the §2 positioning,
+that we build and deploy, in the first seconds of the page. It is the most ambient
+of these exceptions and so the most tightly budgeted: the cell row is fixed at the
+width of the longest word and the closing bracket moves on a **transform**, so no
+layout property is ever animated and the page can never shift; it holds far longer
+than it moves (at rest ~71% of the time, on a period deliberately co-prime with the
+grid blips so the two never beat against each other); it pauses under the pointer,
+stops entirely when the band leaves the viewport, and never starts at all under
+`prefers-reduced-motion`, where the mark simply renders `<PLACEHOLDER>`. The cycling
+letters are `aria-hidden` with the name exposed once beside them — never a live
+region.
+
+Five exceptions is the ceiling now, and the line in this paragraph has already been
+redrawn once. A sixth is not a budget to spend; re-read this whole section, and
+expect the answer to be no.
+
 Interaction feedback runs **150–350ms**; easing `cubic-bezier(0.22, 1, 0.36, 1)`.
 The exceptions above run longer by design — an editorial crossfade at 700ms, a grid
 cell releasing over 1.5s — because they are atmosphere and rhetoric, not a response
@@ -200,10 +234,10 @@ to a click. Outside those, animate `transform` and `opacity` only, reuse the sha
 variants in `lib/motion.ts`, and if motion is not telling the user something changed,
 it does not ship.
 
-Four exceptions is the ceiling, not a trend. Each one earns its place against a
-specific failure (a sequence that cannot be read, a band inert to touch, a dead logo
-strip, an argument the type does not carry). Adding a fifth means re-reading this
-section first.
+Each exception earns its place against a specific failure (a sequence that cannot be
+read, a band inert to touch, a dead logo strip, an argument the type does not carry,
+an identity that sat still in a band made of motion). None of them is licence for
+ambient motion anywhere else.
 
 ---
 

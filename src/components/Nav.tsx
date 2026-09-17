@@ -3,6 +3,7 @@ import { AnimatePresence, motion } from "motion/react";
 import { ArrowUpRight, Menu, X } from "lucide-react";
 import { SECTIONS } from "@/lib/sections";
 import { scrollToId } from "@/lib/utils";
+import { usePath, navigate } from "@/lib/router";
 import { fade } from "@/lib/motion";
 import { Button } from "./Button";
 import { cn } from "@/lib/utils";
@@ -17,6 +18,7 @@ const LINKS = SECTIONS.filter((s) => s.nav);
 export function Nav() {
   const [scrolled, setScrolled] = useState(false);
   const [open, setOpen] = useState(false);
+  const home = usePath() === "/";
 
   useEffect(() => {
     const onScroll = () => setScrolled(window.scrollY > 24);
@@ -33,10 +35,18 @@ export function Nav() {
     };
   }, [open]);
 
+  /**
+   * Section links point at anchors on the home page and at `/#id` from a
+   * sub-page, where there is no such section to scroll to. Both keep a real
+   * href, so the markup still works if the handler never runs.
+   */
+  const hrefFor = (id: string) => (home ? `#${id}` : `/#${id}`);
+
   const go = (id: string) => (e: React.MouseEvent) => {
     e.preventDefault();
     setOpen(false);
-    scrollToId(id);
+    if (home) scrollToId(id);
+    else navigate(`/#${id}`);
   };
 
   return (
@@ -54,7 +64,7 @@ export function Nav() {
             crimson is 5.2:1, so it holds AA over the band and over white.
             Hover inverts against whichever ground is behind it. */}
         <a
-          href="#opening"
+          href={hrefFor("opening")}
           onClick={go("opening")}
           className={cn(
             "mono-ui border border-accent bg-accent px-4 py-3 text-accent-fg transition-colors",
@@ -71,7 +81,7 @@ export function Nav() {
             {LINKS.map((s) => (
               <li key={s.id}>
                 <a
-                  href={`#${s.id}`}
+                  href={hrefFor(s.id)}
                   onClick={go(s.id)}
                   className={cn(
                     "mono-ui -mr-px block border px-4 py-3 transition-colors",
@@ -90,7 +100,7 @@ export function Nav() {
               nav turns white it would disappear, so there it keeps the hairline
               the other links use and reads as the last cell in the row. */}
           <a
-            href="#contact"
+            href={hrefFor("contact")}
             onClick={go("contact")}
             className={cn(
               "mono-ui ml-6 inline-flex items-center gap-2 border px-4 py-3 transition-colors",
@@ -130,7 +140,7 @@ export function Nav() {
             {LINKS.map((s) => (
               <a
                 key={s.id}
-                href={`#${s.id}`}
+                href={hrefFor(s.id)}
                 onClick={go(s.id)}
                 className="flex items-baseline gap-5 border-b border-line py-6 text-3xl font-semibold tracking-tight text-fg"
               >
@@ -139,7 +149,7 @@ export function Nav() {
               </a>
             ))}
             <div className="mt-10">
-              <Button variant="primary" href="#contact" onClick={go("contact")}>
+              <Button variant="primary" href={hrefFor("contact")} onClick={go("contact")}>
                 Start a conversation
               </Button>
             </div>
