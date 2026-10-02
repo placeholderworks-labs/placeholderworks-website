@@ -1,10 +1,7 @@
 /**
- * The site's routes, in one place. The nav, the footer, the document head and
- * `public/sitemap.xml` all describe the same set, so it is defined once here
- * and everything else reads from it — the way `sections.ts` does for the
- * home page's anchors.
- *
- * Keep `public/sitemap.xml` in step when this list changes.
+ * The site's routes, in one place. The nav, the footer, the document head,
+ * the prerendered pages and the generated `sitemap.xml` all read this list
+ * (see `scripts/prerender.mjs`), so adding a route here is the whole job.
  */
 
 export interface RouteMeta {
@@ -12,7 +9,10 @@ export interface RouteMeta {
   path: string;
   /** Short label for nav and footer. */
   label: string;
-  /** Document title. The site name is appended by `useDocumentMeta`. */
+  /**
+   * Document title. The site name is appended (see `lib/seo.ts`). Lead with
+   * what a buyer would search for, not the page's internal name.
+   */
   title: string;
   /** Meta description. One sentence, written for a search result. */
   description: string;
@@ -29,13 +29,21 @@ export interface RouteMeta {
 export const SITE_URL = "https://placeholderworks.com";
 export const SITE_NAME = "Placeholderworks";
 
+/** The home page's head. Its title puts the brand first; subpages put it last. */
+export const HOME_META = {
+  path: "/",
+  title: "Applied AI engineering & implementation",
+  description:
+    "Placeholderworks builds and deploys AI systems that solve real business problems: calling agents, WhatsApp chatbots, apps inside ChatGPT, workflow automation, evals and QA.",
+} as const;
+
 export const ROUTES: readonly RouteMeta[] = [
   {
     path: "/services",
     label: "Services",
-    title: "Services",
+    title: "AI Calling Agents, WhatsApp Chatbots, ChatGPT Apps & Automation",
     description:
-      "Voice and calling agents, WhatsApp and website chatbots, email and workflow automation, AI native apps, ChatGPT apps, evals and QA engines, organised by modality and by domain.",
+      "AI calling agents with telephony and live transfer, WhatsApp and website chatbots, CRM and ERP automation, ChatGPT app development, AI native apps, evals and QA automation.",
     eyebrow: "What we do",
     heading: "If it can be automated, we build it.",
     lede: "Every service below ends in a system running in production. Find yours by how people reach you, or by the industry you work in.",
@@ -44,9 +52,9 @@ export const ROUTES: readonly RouteMeta[] = [
   {
     path: "/portfolio",
     label: "Portfolio",
-    title: "Portfolio",
+    title: "AI Case Studies: Adam Vacations ChatGPT App & RentaLease",
     description:
-      "Client work: the problem, the system we built, and what is running today.",
+      "Client work in production: the Adam Vacations app inside ChatGPT, and RentaLease, a zero-brokerage rent map for Delhi NCR with a WhatsApp chatbot.",
     eyebrow: "Evidence",
     heading: "Portfolio",
     lede: "The projects we have shipped for clients: what was broken, what we built, and what is live now.",

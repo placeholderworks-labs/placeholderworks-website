@@ -3,10 +3,6 @@
   <head>
     <meta charset="UTF-8" />
     <meta name="viewport" content="width=device-width, initial-scale=1.0" />
-    <meta
-      name="description"
-      content="Placeholderworks builds and deploys AI systems that solve real business problems, from idea to production."
-    />
     <meta name="theme-color" content="#0A0A0B" />
 
     <!-- Brand mark. A transparent PNG, square, with the mark centred. -->
@@ -14,61 +10,23 @@
     <link rel="apple-touch-icon" href="/images/favicon.png" />
     <link rel="alternate" type="text/plain" href="/llms.txt" title="LLM-readable summary" />
 
+    <!--
+      Per-route head: title, description, robots, canonical, Open Graph,
+      Twitter card and JSON-LD. scripts/prerender.mjs replaces everything
+      between these markers for each page, from src/lib/seo.ts. The default
+      below is the home page's essentials, so the dev server still has a
+      title; it deliberately carries no canonical or og:url.
+    -->
+    <!--head:start-->
     <title>Placeholderworks | Applied AI engineering & implementation</title>
-    <link rel="canonical" href="https://placeholderworks.com" />
-
-    <!-- Link previews. Social crawlers (LinkedIn, X, Facebook, Instagram,
-         WhatsApp, Reddit, Slack, Discord, Telegram) do not run JavaScript,
-         so these must be static here rather than set by useDocumentMeta.
-         Image is 1200×630 (1.91:1), cut from public/placeholderbanner.png. -->
-    <meta property="og:type" content="website" />
-    <meta property="og:site_name" content="Placeholderworks" />
-    <meta property="og:locale" content="en_US" />
-    <meta property="og:url" content="https://placeholderworks.com" />
-    <meta property="og:title" content="Placeholderworks | Applied AI engineering & implementation" />
     <meta
-      property="og:description"
-      content="We build AI that makes it to production: calling agents, WhatsApp chatbots, apps inside ChatGPT, workflow automation, evals and QA."
+      name="description"
+      content="Placeholderworks builds and deploys AI systems that solve real business problems: calling agents, WhatsApp chatbots, apps inside ChatGPT, workflow automation, evals and QA."
     />
-    <meta property="og:image" content="https://placeholderworks.com/placeholderbanner-og.png" />
-    <meta property="og:image:secure_url" content="https://placeholderworks.com/placeholderbanner-og.png" />
-    <meta property="og:image:type" content="image/png" />
-    <meta property="og:image:width" content="1200" />
-    <meta property="og:image:height" content="630" />
-    <meta property="og:image:alt" content="Placeholderworks" />
-
-    <meta name="twitter:card" content="summary_large_image" />
-    <meta name="twitter:site" content="@placeholderwrks" />
-    <meta name="twitter:title" content="Placeholderworks | Applied AI engineering & implementation" />
-    <meta
-      name="twitter:description"
-      content="We build AI that makes it to production: calling agents, WhatsApp chatbots, apps inside ChatGPT, workflow automation, evals and QA."
-    />
-    <meta name="twitter:image" content="https://placeholderworks.com/placeholderbanner-og.png" />
-    <meta name="twitter:image:alt" content="Placeholderworks" />
-
-    <!-- Organisation details for search engines. -->
-    <script type="application/ld+json">
-      {
-        "@context": "https://schema.org",
-        "@type": "Organization",
-        "name": "Placeholderworks",
-        "url": "https://placeholderworks.com",
-        "logo": "https://placeholderworks.com/images/favicon.png",
-        "image": "https://placeholderworks.com/placeholderbanner-og.png",
-        "description": "Placeholderworks builds and deploys AI systems that solve real business problems, from idea to production.",
-        "email": "contact@placeholderworks.com",
-        "address": { "@type": "PostalAddress", "addressCountry": "IN" },
-        "sameAs": [
-          "https://www.linkedin.com/company/placeholderworks",
-          "https://x.com/placeholderwrks",
-          "https://instagram.com/placeholderwrks"
-        ]
-      }
-    </script>
+    <!--head:end-->
   </head>
   <body>
-    <div id="root"></div>
+    <div id="root"><!--app-html--></div>
     <script type="module" src="/src/main.tsx"></script>
   </body>
 </html>

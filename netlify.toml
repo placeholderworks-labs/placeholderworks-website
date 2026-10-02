@@ -1,16 +1,53 @@
-# Netlify build configuration — Placeholder landing (Vite + React + pnpm).
-# With this file committed, "Import from Git" needs no manual build settings.
+# Netlify build configuration, kept in step with vercel.json.
 
 [build]
-  command = "pnpm build"   # runs `tsc -b && vite build`
-  publish = "dist"         # Vite's build output
+  command = "pnpm build"   # type-check, client build, SSR build, prerender
+  publish = "dist"
 
 [build.environment]
-  NODE_VERSION = "20"      # build with Node 20 (project targets modern Node)
+  NODE_VERSION = "22"
 
-# Single-page site: serve index.html for any path that isn't a built asset.
-# (Static files still resolve first, so JS/CSS/fonts/images are unaffected.)
+# Every route is a real prerendered file (services.html is served at
+# /services), and anything else gets dist/404.html with a real 404 status.
+# No catch-all rewrite: that turned every unknown URL into a 200.
+
+# Retired routes.
 [[redirects]]
-  from = "/*"
-  to = "/index.html"
-  status = 200
+  from = "/faq"
+  to = "/#faq"
+  status = 301
+
+[[redirects]]
+  from = "/contact-us"
+  to = "/#contact"
+  status = 301
+
+[[redirects]]
+  from = "/blogs/*"
+  to = "/"
+  status = 301
+
+[[redirects]]
+  from = "/blogs"
+  to = "/"
+  status = 301
+
+[[headers]]
+  for = "/assets/*"
+  [headers.values]
+    Cache-Control = "public, max-age=31536000, immutable"
+
+[[headers]]
+  for = "/llms.txt"
+  [headers.values]
+    Content-Type = "text/plain; charset=utf-8"
+
+[[headers]]
+  for = "/*"
+  [headers.values]
+    Strict-Transport-Security = "max-age=63072000"
+    X-Content-Type-Options = "nosniff"
+    Referrer-Policy = "strict-origin-when-cross-origin"
+    X-Frame-Options = "SAMEORIGIN"
+    Permissions-Policy = "camera=(), microphone=(), geolocation=(), payment=(), usb=()"
+    Content-Security-Policy = "default-src 'self'; script-src 'self'; style-src 'self' 'unsafe-inline'; img-src 'self' data:; font-src 'self'; media-src 'self'; connect-src 'self'; object-src 'none'; base-uri 'self'; form-action 'self'; frame-ancestors 'self'; upgrade-insecure-requests"

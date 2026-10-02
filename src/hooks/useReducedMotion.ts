@@ -1,19 +1,24 @@
-import { useEffect, useState } from "react";
+import { useSyncExternalStore } from "react";
 
 const QUERY = "(prefers-reduced-motion: reduce)";
 
-/** Tracks the user's reduced-motion preference, live. */
+function subscribe(onChange: () => void) {
+  const mq = window.matchMedia(QUERY);
+  mq.addEventListener("change", onChange);
+  return () => mq.removeEventListener("change", onChange);
+}
+
+/**
+ * Tracks the user's reduced-motion preference, live.
+ *
+ * The server snapshot is `false`: prerendered HTML has no media query to ask,
+ * and hydration renders that same value before React re-reads the real one,
+ * so the markup always matches.
+ */
 export function useReducedMotion(): boolean {
-  const [reduced, setReduced] = useState(
-    () => window.matchMedia(QUERY).matches
+  return useSyncExternalStore(
+    subscribe,
+    () => window.matchMedia(QUERY).matches,
+    () => false
   );
-
-  useEffect(() => {
-    const mq = window.matchMedia(QUERY);
-    const onChange = () => setReduced(mq.matches);
-    mq.addEventListener("change", onChange);
-    return () => mq.removeEventListener("change", onChange);
-  }, []);
-
-  return reduced;
 }

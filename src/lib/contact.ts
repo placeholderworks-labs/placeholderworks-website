@@ -8,6 +8,12 @@ export const EMAIL = "contact@placeholderworks.com";
 /** WhatsApp Business (+91 87966 77380), digits only as wa.me needs it. */
 const WHATSAPP_NUMBER = "918796677380";
 
+/**
+ * The same number in international format, for structured data only (the
+ * Organization schema in `lib/seo.ts`). It is not shown on the page.
+ */
+export const TELEPHONE = "+91-87966-77380";
+
 const WHATSAPP_MESSAGE = "Hi, I have a requirement for my business. Can we talk?";
 
 /** A WhatsApp chat link with `text` already written into the message box. */

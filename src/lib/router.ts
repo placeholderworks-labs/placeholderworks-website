@@ -29,9 +29,26 @@ function subscribe(onChange: () => void) {
 
 const read = () => normalize(window.location.pathname);
 
+/**
+ * The path being prerendered. `scripts/prerender.mjs` sets it before each
+ * render, since there is no `window.location` at build time.
+ */
+let serverPath = "/";
+export function setServerPath(path: string) {
+  serverPath = normalize(path);
+}
+
+/**
+ * During hydration React reads the server snapshot, so in the browser it must
+ * be the real path: a prerendered /services hydrating as "/" would mismatch
+ * and throw the page away.
+ */
+const readServer = () =>
+  typeof window === "undefined" ? serverPath : read();
+
 /** The current path, re-rendering the tree whenever it changes. */
 export function usePath(): string {
-  return useSyncExternalStore(subscribe, read, () => "/");
+  return useSyncExternalStore(subscribe, read, readServer);
 }
 
 export function navigate(to: string, replace = false) {

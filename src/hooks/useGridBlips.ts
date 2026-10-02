@@ -30,7 +30,9 @@ function randomInt(max: number): number {
  */
 export function useGridBlips(
   ref: RefObject<HTMLElement | null>,
-  enabled: boolean
+  enabled: boolean,
+  /** How many of the grid's leading cells are on screen; defaults to all. */
+  visible?: () => number
 ) {
   useEffect(() => {
     const grid = ref.current;
@@ -40,14 +42,15 @@ export function useGridBlips(
 
     const tick = () => {
       const cells = grid.children;
-      if (cells.length === 0) return;
+      const pool = Math.min(cells.length, visible?.() ?? cells.length);
+      if (pool === 0) return;
 
       const count =
         MIN_PER_TICK + randomInt(MAX_PER_TICK - MIN_PER_TICK + 1);
       // A Set keeps the picks distinct, so "three cells" is really three.
       const picks = new Set<number>();
-      while (picks.size < Math.min(count, cells.length)) {
-        picks.add(randomInt(cells.length));
+      while (picks.size < Math.min(count, pool)) {
+        picks.add(randomInt(pool));
       }
 
       for (const index of picks) {
@@ -74,5 +77,5 @@ export function useGridBlips(
         delete (cell as HTMLElement).dataset.blip;
       }
     };
-  }, [ref, enabled]);
+  }, [ref, enabled, visible]);
 }

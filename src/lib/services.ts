@@ -209,7 +209,7 @@ export const FEATURED: Featured[] = [
     // Poster only until the video lands: the slot shows the still.
     video: {
       title: "ChatGPT × Placeholderworks",
-      poster: "/videos/chatgpt-x-placeholderworks.jpg",
+      poster: "/videos/chatgpt-x-placeholderworks.webp",
     },
   },
   {
@@ -219,7 +219,7 @@ export const FEATURED: Featured[] = [
     // Poster only until the video lands: the slot shows the still.
     video: {
       title: "WhatsApp × Placeholderworks",
-      poster: "/videos/whatsapp-x-placeholderworks.jpg",
+      poster: "/videos/whatsapp-x-placeholderworks.webp",
     },
   },
   {
@@ -229,7 +229,7 @@ export const FEATURED: Featured[] = [
     // Poster only until the video lands: the slot shows the still.
     video: {
       title: "Calling Agent × Placeholderworks",
-      poster: "/videos/calling-agent-x-placeholderworks.jpg",
+      poster: "/videos/calling-agent-x-placeholderworks.webp",
     },
   },
 ];

@@ -1,5 +1,6 @@
 import { useEffect } from "react";
-import { SITE_NAME, SITE_URL } from "@/lib/routes";
+import { SITE_URL } from "@/lib/routes";
+import { fullTitle } from "@/lib/seo";
 
 /** Find a head tag by selector, or create and append it. */
 function tag<T extends HTMLElement>(
@@ -14,13 +15,12 @@ function tag<T extends HTMLElement>(
 }
 
 /**
- * Keeps the document head in step with the current route.
+ * Keeps the document head in step as the reader navigates in the browser.
  *
- * The site is client-rendered from one `index.html`, so every route would
- * otherwise share the home page's title and description. The canonical link
- * matters more than usual here: `netlify.toml` serves `/*` as `index.html`
- * with status 200, so an unknown path returns a page rather than a 404, and
- * without a canonical every typo'd URL looks like duplicate content.
+ * Each page's first load already carries its full head, written at build time
+ * by `scripts/prerender.mjs` from `lib/seo.ts`. Client-side navigation swaps
+ * the page without a reload, so this updates the title, description,
+ * canonical and robots tags to match.
  */
 export function useDocumentMeta(opts: {
   title: string;
@@ -32,9 +32,7 @@ export function useDocumentMeta(opts: {
   const { title, description, path, noindex = false } = opts;
 
   useEffect(() => {
-    const full =
-      path === "/" ? `${SITE_NAME} | ${title}` : `${title} | ${SITE_NAME}`;
-    document.title = full;
+    document.title = fullTitle(path, title);
 
     tag<HTMLMetaElement>('meta[name="description"]', () => {
       const m = document.createElement("meta");

@@ -12,6 +12,7 @@ import { Wordmark } from "@/components/Wordmark";
 import { Footer } from "@/sections/Footer";
 import { usePath } from "@/lib/router";
 import { useDocumentMeta } from "@/hooks/useDocumentMeta";
+import { HOME_META } from "@/lib/routes";
 import { Services } from "@/pages/Services";
 import { Portfolio } from "@/pages/Portfolio";
 import { Privacy } from "@/pages/Privacy";
@@ -27,10 +28,7 @@ const PAGES: Record<string, () => React.ReactElement> = {
 
 function Home() {
   useDocumentMeta({
-    title: "Applied AI engineering & implementation",
-    description:
-      "Placeholderworks builds and deploys AI systems that solve real business problems, from idea to production.",
-    path: "/",
+    ...HOME_META,
   });
 
   return (

@@ -109,7 +109,7 @@ That band is the only dark surface; there is no mid-page darkness.
 
 --fg:    #0A0A0B   /* primary text */
 --fg-2:  #52525A   /* secondary */
---fg-3:  #8A8A92   /* tertiary — never small body copy */
+--fg-3:  #6E6E76   /* tertiary — 5.0:1 on white, passes AA (was #8A8A92, 3.4:1) */
 
 --accent:    #C92F47   /* flat crimson */
 --accent-fg: #FFFFFF   /* text on accent */

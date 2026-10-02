@@ -16,10 +16,9 @@ const ROUTE: RouteMeta = {
 };
 
 /**
- * Rendered for any unmatched path. Marked `noindex` because `netlify.toml`
- * rewrites `/*` to `index.html` with status 200 — the response is a 200 no
- * matter what, so the meta tag is the only signal a crawler gets that this is
- * not a real page.
+ * Rendered for any unmatched path. At build time it becomes dist/404.html,
+ * which Vercel and Netlify serve with a real 404 status; `noindex` covers the
+ * client-side case, where an in-app link reaches a path that does not exist.
  */
 export function NotFound() {
   return (

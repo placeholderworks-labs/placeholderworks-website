@@ -46,9 +46,11 @@ export function HeroLockup() {
       className="wm flex flex-col items-start gap-2 lg:flex-row lg:items-center lg:gap-4"
     >
       <span className="flex items-center gap-3 text-wordmark">
-        {/* Transparent PNG: the crimson mark alone, straight on the band. */}
+        {/* Transparent PNG: the crimson mark alone, straight on the band.
+            96px is 2x its largest display size; the 512px favicon is for
+            browser icons and the logo in the structured data. */}
         <img
-          src="/images/favicon.png"
+          src="/images/logo-96.png"
           alt=""
           width={48}
           height={48}

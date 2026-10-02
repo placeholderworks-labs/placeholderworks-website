@@ -15,7 +15,7 @@
 
   --color-fg: #0a0a0b; /* primary text */
   --color-fg-2: #52525a; /* secondary */
-  --color-fg-3: #8a8a92; /* tertiary — never small body copy (contrast) */
+  --color-fg-3: #6e6e76; /* tertiary: 5.0:1 on white, AA for small text */
 
   /* Flat crimson from the locked accent family. 5.2:1 both on white and under
      white text, so it passes AA as a text colour AND as a fill. On --color-ink

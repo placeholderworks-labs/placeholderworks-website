@@ -1,4 +1,4 @@
-import { useLayoutEffect, useRef, useState } from "react";
+import { useCallback, useRef } from "react";
 import { ArrowDown } from "lucide-react";
 import { Button } from "@/components/Button";
 import { HeroLockup } from "@/components/HeroLockup";
@@ -17,16 +17,14 @@ const ROWS = 7;
  */
 const CELL = 35;
 
-/** Columns before the band has been measured — a typical laptop width. */
-const INITIAL_COLS = 40;
-
 /**
- * Columns needed to span `width`, plus one so a resize never leaves a bare
- * strip at the right edge.
+ * Enough columns to cover a 2560px screen, plus one. The page is prerendered,
+ * so the grid cannot wait for a measurement: a count that changed after load
+ * would re-flow every cell and shift the band. Instead it fills column by
+ * column into its fixed rows, and whatever runs past the band's right edge is
+ * simply clipped.
  */
-function columnsFor(width: number): number {
-  return Math.ceil(width / CELL) + 1;
-}
+const COLS = Math.ceil(2560 / CELL) + 1;
 
 /**
  * Where our clients have come from. Only four marks, so each pass of the
@@ -34,10 +32,12 @@ function columnsFor(width: number): number {
  * the loop shows a gap.
  */
 const PROOF = [
-  { name: "RentaLease", src: "/images/logos/rentalease.svg", h: "h-10", label: true },
-  { name: "Google", src: "/images/logos/google.svg", h: "h-7" },
-  { name: "Adam Vacations", src: "/images/logos/adam-vacations.png", h: "h-10" },
-  { name: "Chitkara University", src: "/images/logos/chitkara-university.svg", h: "h-10" },
+  // w/h are each file's intrinsic size, so the browser reserves the right box
+  // before the image arrives. CSS still sets the displayed height.
+  { name: "RentaLease", src: "/images/logos/rentalease.svg", w: 100, h: 100, cls: "h-10", label: true },
+  { name: "Google", src: "/images/logos/google.svg", w: 272, h: 92, cls: "h-7" },
+  { name: "Adam Vacations", src: "/images/logos/adam-vacations.png", w: 480, h: 148, cls: "h-10" },
+  { name: "Chitkara University", src: "/images/logos/chitkara-university.svg", w: 180, h: 61, cls: "h-10" },
 ];
 const PASS = [...PROOF, ...PROOF];
 
@@ -52,25 +52,16 @@ export function Hero() {
   const gridRef = useRef<HTMLDivElement>(null);
   const reduced = useReducedMotion();
 
-  // Only render the columns actually on screen. A fixed wide count would put
-  // most cells — and so most blips — outside the viewport on a phone.
-  const [cols, setCols] = useState(INITIAL_COLS);
-
-  // Layout effect, not a plain effect: measuring after paint would show a bare
-  // strip at the right edge for one frame on screens wider than INITIAL_COLS.
-  useLayoutEffect(() => {
-    const band = bandRef.current;
-    if (!band) return;
-
-    const measure = () => setCols(columnsFor(band.clientWidth));
-    measure();
-
-    const observer = new ResizeObserver(measure);
-    observer.observe(band);
-    return () => observer.disconnect();
+  // Column-major fill, so the cells on screen are always the first
+  // (visible columns × ROWS). Blips draw only from those, or most of them
+  // would light up off the edge on a phone. Read per tick, so a resize needs
+  // no listener.
+  const visibleCells = useCallback(() => {
+    const width = bandRef.current?.clientWidth ?? 0;
+    return Math.min(COLS, Math.ceil(width / CELL)) * ROWS;
   }, []);
 
-  useGridBlips(gridRef, !reduced);
+  useGridBlips(gridRef, !reduced, visibleCells);
 
   return (
     <section id="opening" className="scroll-mt-0">
@@ -96,11 +87,12 @@ export function Hero() {
           aria-hidden
           className="absolute left-0 top-0 grid"
           style={{
-            gridTemplateColumns: `repeat(${cols}, ${CELL}px)`,
+            gridAutoFlow: "column",
+            gridAutoColumns: `${CELL}px`,
             gridTemplateRows: `repeat(${ROWS}, ${CELL}px)`,
           }}
         >
-          {Array.from({ length: ROWS * cols }, (_, i) => (
+          {Array.from({ length: ROWS * COLS }, (_, i) => (
             <div
               key={i}
               className="border-b border-r border-ink-line transition-colors duration-1500 ease-out hover:bg-accent hover:duration-75"
@@ -190,9 +182,11 @@ export function Hero() {
                     <img
                       src={logo.src}
                       alt={logo.label ? "" : logo.name}
+                      width={logo.w}
+                      height={logo.h}
                       loading="lazy"
                       decoding="async"
-                      className={`${logo.h} w-auto max-w-full object-contain`}
+                      className={`${logo.cls} w-auto max-w-full object-contain`}
                     />
                     {logo.label && (
                       <span className="text-lg font-semibold tracking-tight text-fg">
