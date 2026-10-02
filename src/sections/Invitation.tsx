@@ -1,10 +1,9 @@
 import { useState, type FormEvent } from "react";
 import { AnimatePresence, motion } from "motion/react";
 import { ArrowRight, Check } from "lucide-react";
-import { Reveal } from "@/components/Reveal";
 import { Section } from "@/components/Section";
 import { Button } from "@/components/Button";
-import { EASE } from "@/lib/motion";
+import { swap } from "@/lib/motion";
 import { cn } from "@/lib/utils";
 
 /** Replace with the real submission endpoint. */
@@ -15,7 +14,6 @@ type Fields = { name: string; email: string; message: string };
 type Errors = Partial<Record<keyof Fields, string>>;
 
 const EMAIL_RE = /^[^\s@]+@[^\s@]+\.[^\s@]+$/;
-const ERROR = "#e5675d";
 
 function validate(f: Fields): Errors {
   const e: Errors = {};
@@ -71,8 +69,8 @@ export function Invitation() {
   }
 
   return (
-    <Section id="contact" eyebrow="Invitation">
-      <div className="grid gap-12 lg:grid-cols-[1fr_1fr] lg:gap-20">
+    <Section id="contact" index="05" eyebrow="Invitation" tight>
+      <div className="grid gap-14 lg:grid-cols-[1fr_1fr] lg:gap-24">
         <div>
           <h2 className="text-title text-fg">Let's discuss a problem.</h2>
           <p className="measure mt-6 text-body text-fg-2">
@@ -90,20 +88,19 @@ export function Invitation() {
           </p>
         </div>
 
-        <Reveal>
-          <AnimatePresence mode="wait">
+        <AnimatePresence mode="wait">
             {status === "success" ? (
               <motion.div
                 key="success"
-                className="glass flex min-h-72 flex-col justify-center rounded-lg p-8"
-                initial={{ opacity: 0, y: 12 }}
-                animate={{ opacity: 1, y: 0 }}
-                transition={{ duration: 0.5, ease: EASE }}
+                className="flex min-h-72 flex-col justify-center border border-line bg-bg-1 p-10"
+                variants={swap}
+                initial="hidden"
+                animate="visible"
               >
-                <span className="accent-gradient flex h-11 w-11 items-center justify-center rounded-full text-accent-fg">
+                <span className="flex h-11 w-11 items-center justify-center bg-accent text-accent-fg">
                   <Check size={20} />
                 </span>
-                <h3 className="mt-6 text-subtitle text-fg">Message received.</h3>
+                <h3 className="mt-8 text-subtitle text-fg">Message received.</h3>
                 <p className="measure mt-3 text-body text-fg-2">
                   We'll be in touch within one business day. In the meantime,
                   we're already thinking about your problem.
@@ -115,7 +112,7 @@ export function Invitation() {
                     setErrors({});
                     setStatus("idle");
                   }}
-                  className="mt-6 self-start font-mono text-sm text-fg-3 underline decoration-line underline-offset-4 transition-colors hover:text-fg"
+                  className="mt-8 self-start font-mono text-sm text-fg-3 underline decoration-line underline-offset-4 transition-colors hover:text-fg"
                 >
                   Send another
                 </button>
@@ -125,11 +122,11 @@ export function Invitation() {
                 key="form"
                 onSubmit={onSubmit}
                 noValidate
-                className="flex flex-col gap-8"
-                initial={{ opacity: 0 }}
-                animate={{ opacity: 1 }}
-                exit={{ opacity: 0 }}
-                transition={{ duration: 0.3 }}
+                className="flex flex-col gap-9"
+                variants={swap}
+                initial="hidden"
+                animate="visible"
+                exit="hidden"
               >
                 <FormField
                   id="name"
@@ -158,7 +155,7 @@ export function Invitation() {
                 />
 
                 {status === "error" && (
-                  <p role="alert" className="text-sm" style={{ color: ERROR }}>
+                  <p role="alert" className="text-sm text-danger">
                     Something went wrong sending that. Try again, or email us
                     directly.
                   </p>
@@ -167,17 +164,15 @@ export function Invitation() {
                 <Button
                   variant="primary"
                   type="submit"
-                  magnetic={false}
                   disabled={status === "submitting"}
                   className="self-start"
                 >
                   {status === "submitting" ? "Sending…" : "Send message"}
-                  {status !== "submitting" && <ArrowRight size={18} />}
+                  {status !== "submitting" && <ArrowRight size={16} />}
                 </Button>
               </motion.form>
             )}
-          </AnimatePresence>
-        </Reveal>
+        </AnimatePresence>
       </div>
     </Section>
   );
@@ -205,17 +200,12 @@ function FormField({
   autoComplete,
 }: FormFieldProps) {
   const base =
-    "w-full bg-transparent border-b py-3 text-body text-fg placeholder:text-fg-3 outline-none transition-colors duration-200";
-  const borderCls = error
-    ? "border-[#e5675d]"
-    : "border-line focus:border-accent";
+    "w-full bg-transparent border-b py-3 text-body text-fg placeholder:text-fg-3 outline-none transition-colors duration-150";
+  const borderCls = error ? "border-danger" : "border-line focus:border-accent";
 
   return (
     <div>
-      <label
-        htmlFor={id}
-        className="eyebrow mb-3 block text-fg-2"
-      >
+      <label htmlFor={id} className="eyebrow mb-3 block">
         {label}
       </label>
       {multiline ? (
@@ -243,7 +233,7 @@ function FormField({
         />
       )}
       {error && (
-        <p id={`${id}-error`} className="mt-2 text-sm" style={{ color: ERROR }}>
+        <p id={`${id}-error`} className="mt-2 text-sm text-danger">
           {error}
         </p>
       )}

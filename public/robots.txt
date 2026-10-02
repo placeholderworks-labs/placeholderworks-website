@@ -1,0 +1,70 @@
+User-Agent: *
+Allow: /
+Disallow: /api/
+Disallow: /admin/
+
+User-Agent: GPTBot
+Allow: /
+
+User-Agent: ChatGPT-User
+Allow: /
+
+User-Agent: OAI-SearchBot
+Allow: /
+
+User-Agent: Google-Extended
+Allow: /
+
+User-Agent: Googlebot
+Allow: /
+
+User-Agent: Gemini
+Allow: /
+
+User-Agent: anthropic-ai
+Allow: /
+
+User-Agent: ClaudeBot
+Allow: /
+
+User-Agent: Claude-Web
+Allow: /
+
+User-Agent: PerplexityBot
+Allow: /
+
+User-Agent: Bingbot
+Allow: /
+
+User-Agent: BingPreview
+Allow: /
+
+User-Agent: FacebookBot
+Allow: /
+
+User-Agent: meta-externalagent
+Allow: /
+
+User-Agent: Applebot
+Allow: /
+
+User-Agent: Applebot-Extended
+Allow: /
+
+User-Agent: YouBot
+Allow: /
+
+User-Agent: cohere-ai
+Allow: /
+
+User-Agent: Bytespider
+Allow: /
+
+User-Agent: CCBot
+Allow: /
+
+User-Agent: DataForSeoBot
+Allow: /
+
+Host: https://placeholderworks.com
+Sitemap: https://placeholderworks.com/sitemap.xml

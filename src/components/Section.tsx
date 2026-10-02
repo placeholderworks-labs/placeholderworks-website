@@ -4,28 +4,47 @@ import { cn } from "@/lib/utils";
 interface SectionProps {
   id: string;
   eyebrow?: string;
+  /** Zero-padded step shown alongside the eyebrow, e.g. "02". */
+  index?: string;
   className?: string;
   /** Constrain and center content; set false for full-bleed sections. */
   contained?: boolean;
+  /** Hairline rule across the top of the section. */
+  rule?: boolean;
+  /**
+   * Pull the vertical rhythm in. The default gap is set for sections that sit
+   * between two other arguments; the closing section needs less air around it,
+   * since the footer furniture below already ends the page.
+   */
+  tight?: boolean;
   children: ReactNode;
 }
 
 /**
- * Semantic section shell with the standard vertical rhythm (space-24+, so the
- * page breathes) and anchor scroll offset. Eyebrow uses the mono label style.
+ * Semantic section shell. On white the page needs more separation than it did
+ * on dark, where the surface change carried some of that load — so the rhythm
+ * is generous and a hairline rule marks each boundary.
+ *
+ * The eyebrow is a mono label, deliberately without the accent dash that used
+ * to prefix it: repeated across nine sections that read as clutter on white.
  */
 export function Section({
   id,
   eyebrow,
+  index,
   className,
   contained = true,
+  rule = true,
+  tight = false,
   children,
 }: SectionProps) {
   return (
     <section
       id={id}
       className={cn(
-        "relative scroll-mt-24 py-24 md:py-32 lg:py-40",
+        "relative scroll-mt-20",
+        tight ? "py-20 md:py-24 lg:py-28" : "py-28 md:py-36 lg:py-44",
+        rule && "border-t border-line",
         className
       )}
     >
@@ -35,11 +54,8 @@ export function Section({
         )}
       >
         {eyebrow && (
-          <p className="eyebrow mb-6 flex items-center gap-3">
-            <span
-              aria-hidden
-              className="inline-block h-px w-8 bg-accent/70"
-            />
+          <p className="eyebrow mb-10 flex items-baseline gap-4">
+            {index && <span className="text-accent">{index}</span>}
             {eyebrow}
           </p>
         )}

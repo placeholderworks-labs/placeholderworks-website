@@ -1,4 +1,3 @@
-import { Reveal } from "@/components/Reveal";
 import { Section } from "@/components/Section";
 
 interface Deployment {
@@ -62,7 +61,7 @@ const DEPLOYMENTS: Deployment[] = [
 
 export function Work() {
   return (
-    <Section id="work" eyebrow="Evidence">
+    <Section id="work" index="04" eyebrow="Evidence">
       <div className="flex flex-wrap items-end justify-between gap-6">
         <h2 className="max-w-[16ch] text-title text-fg">
           Selected deployments.
@@ -76,10 +75,9 @@ export function Work() {
 
       <div className="mt-16 border-t border-line">
         {DEPLOYMENTS.map((d) => (
-          <Reveal key={d.n}>
-            <article className="group border-b border-line py-12">
+            <article key={d.n} className="group border-b border-line py-12">
               <div className="grid gap-8 lg:grid-cols-[8rem_1fr] lg:gap-12">
-                <div className="font-mono text-5xl font-medium leading-none text-fg-3 transition-colors duration-500 group-hover:text-accent md:text-6xl">
+                <div className="font-mono text-5xl font-medium leading-none text-fg-3 transition-colors duration-150 group-hover:text-accent md:text-6xl">
                   {d.n}
                 </div>
 
@@ -98,7 +96,7 @@ export function Work() {
                     </div>
                   </div>
 
-                  <dl className="mt-10 grid grid-cols-1 gap-px overflow-hidden rounded-md bg-line sm:grid-cols-3">
+                  <dl className="mt-10 grid grid-cols-1 gap-px bg-line sm:grid-cols-3">
                     {d.metrics.map((m, i) => (
                       <div key={i} className="bg-bg-1 p-6">
                         <dt className="eyebrow mb-2 text-fg-3">{m.label}</dt>
@@ -109,7 +107,6 @@ export function Work() {
                 </div>
               </div>
             </article>
-          </Reveal>
         ))}
       </div>
     </Section>

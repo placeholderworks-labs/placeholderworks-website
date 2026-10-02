@@ -1,161 +1,196 @@
-import { motion } from "motion/react";
+import { useLayoutEffect, useRef, useState } from "react";
+import { ArrowDown } from "lucide-react";
 import { Button } from "@/components/Button";
-import { EASE } from "@/lib/motion";
-import { scrollToId } from "@/hooks/useLenis";
+import { HeroLockup } from "@/components/HeroLockup";
 import { useReducedMotion } from "@/hooks/useReducedMotion";
+import { useGridBlips } from "@/hooks/useGridBlips";
+import { scrollToId } from "@/lib/utils";
 
-const IMG = "/images/liquid-glass.png";
+/** The dark band is exactly this many grid rows tall. */
+const ROWS = 7;
 
 /**
- * Opening scene (CLAUDE.md §6), built around one liquid-glass image:
- *  - Layer 1: a blurred drifting background fill (never leaves the bg empty).
- *  - Layer 2: the crisp image. On mobile it fills the viewport (object-cover);
- *    on desktop it's rotated horizontal (270°), enlarged, bleeding off the
- *    top-right, and sweeps a "C" down the right side with a scale pop mid-path.
- *  - Layer 3: a readability scrim under the left-aligned text.
- *
- * The PNG is RGBA with a real transparent background, so it needs no edge mask.
- * Blur is applied statically — only transform/opacity animate — and every motion
- * is frozen under reduced motion.
+ * Cell size in px, identical on every breakpoint. Small enough that seven rows
+ * only occupy 245px, which keeps the headline high on the page on phones as
+ * well as desktops — the band must never push the opening statement down.
+ */
+const CELL = 35;
+
+/** Columns before the band has been measured — a typical laptop width. */
+const INITIAL_COLS = 40;
+
+/**
+ * Columns needed to span `width`, plus one so a resize never leaves a bare
+ * strip at the right edge.
+ */
+function columnsFor(width: number): number {
+  return Math.ceil(width / CELL) + 1;
+}
+
+/** Structural proof band. Real logos drop straight into these cells (§9). */
+const PROOF = [
+  "[CLIENT LOGO]",
+  "[CLIENT LOGO]",
+  "[CLIENT LOGO]",
+  "[CLIENT LOGO]",
+  "[CLIENT LOGO]",
+  "[CLIENT LOGO]",
+];
+
+/**
+ * Opening scene (CLAUDE.md §6). A ruled dark band carrying the identity, a
+ * hard cut to white, then the statement. Composition and type carry it; the
+ * only motion is the grid, which responds to the pointer and pulses quietly
+ * on its own where there is no pointer to respond to.
  */
 export function Hero() {
+  const bandRef = useRef<HTMLDivElement>(null);
+  const gridRef = useRef<HTMLDivElement>(null);
   const reduced = useReducedMotion();
-  const d = (s: number) => (reduced ? 0 : s);
+
+  // Only render the columns actually on screen. A fixed wide count would put
+  // most cells — and so most blips — outside the viewport on a phone.
+  const [cols, setCols] = useState(INITIAL_COLS);
+
+  // Layout effect, not a plain effect: measuring after paint would show a bare
+  // strip at the right edge for one frame on screens wider than INITIAL_COLS.
+  useLayoutEffect(() => {
+    const band = bandRef.current;
+    if (!band) return;
+
+    const measure = () => setCols(columnsFor(band.clientWidth));
+    measure();
+
+    const observer = new ResizeObserver(measure);
+    observer.observe(band);
+    return () => observer.disconnect();
+  }, []);
+
+  useGridBlips(gridRef, !reduced);
 
   return (
-    <section
-      id="opening"
-      className="relative isolate flex min-h-[100svh] items-end overflow-hidden lg:items-center"
-    >
-      {/* Layer 1 — blurred background fill, slow orbit (transform only) */}
-      <motion.div
-        aria-hidden
-        className="absolute inset-0 -z-30"
-        style={{
-          backgroundImage: `url('${IMG}')`,
-          backgroundSize: "cover",
-          backgroundPosition: "center",
-          backgroundRepeat: "no-repeat",
-          filter: "blur(60px)",
-          opacity: 0.65,
-        }}
-        initial={{ scale: 1.6 }}
-        animate={
-          reduced
-            ? { scale: 1.6 }
-            : {
-                scale: [1.6, 1.68, 1.6],
-                x: ["0%", "3%", "-2%", "0%"],
-                y: ["0%", "-2%", "2%", "0%"],
-              }
-        }
-        transition={
-          reduced
-            ? undefined
-            : { duration: 40, ease: "easeInOut", repeat: Infinity }
-        }
-      />
+    <section id="opening" className="scroll-mt-0">
+      {/* ---- Dark band ---------------------------------------------------- */}
+      {/* Height is driven by the grid itself, so the band always ends on a
+          whole row rather than clipping one in half. */}
+      <div
+        ref={bandRef}
+        className="on-ink relative overflow-hidden"
+        style={{ height: ROWS * CELL }}
+      >
+        {/* Live grid. Decorative, so it is aria-hidden and unreachable by
+            keyboard — the lit cells are atmosphere, never information.
 
-      {/* Layer 2 — the crisp "living" image. Mobile: full-bleed fill. Desktop:
-          rotated 270°, enlarged, sweeping a "C" down the right side. */}
-      <div aria-hidden className="absolute inset-0 -z-20 overflow-hidden">
-        {/* Mobile: fills the viewport behind the text */}
-        <motion.img
-          src={IMG}
-          alt=""
-          fetchPriority="high"
-          decoding="async"
-          className="absolute inset-0 h-full w-full object-cover object-center opacity-80 will-change-transform lg:hidden"
-          initial={{ scale: 1.06 }}
-          animate={reduced ? { scale: 1.06 } : { scale: [1.06, 1.12, 1.06] }}
-          transition={
-            reduced
-              ? undefined
-              : {
-                  duration: 20,
-                  ease: "easeInOut",
-                  repeat: Infinity,
-                  repeatType: "mirror",
-                }
-          }
-        />
-        {/* Desktop: rotated horizontal, bleeding off the top-right, C-motion */}
-        <motion.img
-          src={IMG}
-          alt=""
-          fetchPriority="high"
-          decoding="async"
-          className="absolute right-[-10%] top-[-12%] hidden w-[74%] max-w-none will-change-transform lg:block"
-          initial={{ rotate: 270, scale: 1.04 }}
-          animate={
-            reduced
-              ? { rotate: 270, scale: 1.04 }
-              : {
-                  rotate: 270,
-                  x: ["4%", "-4%", "4%"],
-                  y: ["-7%", "0%", "7%"],
-                  scale: [1.03, 1.1, 1.03],
-                }
-          }
-          transition={
-            reduced
-              ? undefined
-              : {
-                  duration: 20,
-                  ease: "easeInOut",
-                  repeat: Infinity,
-                  repeatType: "mirror",
-                }
-          }
-        />
+            Two behaviours share these cells. On a pointer device the
+            asymmetric timing is the effect: a cell fills almost instantly
+            under the cursor, then takes 1.5s to let go, so trailing
+            cells fade out behind it instead of blinking off. Touch devices
+            get no hover at all, so useGridBlips pulses a couple of random
+            cells at half strength to keep the band alive there too. */}
+        <div
+          ref={gridRef}
+          aria-hidden
+          className="absolute left-0 top-0 grid"
+          style={{
+            gridTemplateColumns: `repeat(${cols}, ${CELL}px)`,
+            gridTemplateRows: `repeat(${ROWS}, ${CELL}px)`,
+          }}
+        >
+          {Array.from({ length: ROWS * cols }, (_, i) => (
+            <div
+              key={i}
+              className="border-b border-r border-ink-line transition-colors duration-1500 ease-out hover:bg-accent hover:duration-75"
+            />
+          ))}
+        </div>
+
+        {/* Content sits above the grid but lets the pointer through, so the
+            cells behind the wordmark still light up. Interactive children
+            opt back in. */}
+        <div className="pointer-events-none relative mx-auto flex h-full w-full max-w-6xl items-end justify-between gap-6 px-6 pb-8 md:px-10 md:pb-10 lg:px-16">
+          <HeroLockup />
+
+          <a
+            href="#thesis"
+            onClick={(e) => {
+              e.preventDefault();
+              scrollToId("thesis");
+            }}
+            className="mono-ui pointer-events-auto hidden items-center gap-3 text-white/60 transition-colors hover:text-white md:inline-flex"
+          >
+            Scroll
+            <ArrowDown size={14} aria-hidden />
+          </a>
+        </div>
       </div>
 
-      {/* Layer 3 — readability scrim: vertical on mobile, horizontal on desktop */}
-      <div
-        aria-hidden
-        className="absolute inset-0 -z-10 bg-gradient-to-t from-bg-0 via-bg-0/80 to-bg-0/20 lg:bg-gradient-to-r lg:from-bg-0 lg:via-bg-0/85 lg:to-transparent"
-      />
+      {/* ---- Hard cut to white -------------------------------------------- */}
+      <div className="mx-auto w-full max-w-6xl px-6 py-24 md:px-10 md:py-32 lg:px-16">
+        <div className="grid gap-14 lg:grid-cols-[1.15fr_1fr] lg:gap-20">
+          <h1 className="text-hero text-fg">
+            We build AI that makes it
+            <span className="mt-2 block font-mono text-accent [font-size:0.42em] [letter-spacing:-0.01em]">
+              [ to production ]
+            </span>
+          </h1>
 
-      {/* Text */}
-      <div className="mx-auto flex w-full max-w-6xl px-6 pb-20 pt-28 md:px-10 lg:px-16 lg:pb-0 lg:pt-0">
-        <div className="max-w-xl">
-          <motion.h1
-            className="max-w-[15ch] text-hero text-fg"
-            initial={{ opacity: 0, y: 20 }}
-            animate={{ opacity: 1, y: 0 }}
-            transition={{ duration: 0.7, ease: EASE, delay: d(0.05) }}
-          >
-            We build AI that makes it{" "}
-            <span className="accent-text">to production.</span>
-          </motion.h1>
+          <div className="lg:pt-4">
+            <p className="measure text-subtitle text-fg-2">
+              Strategy, engineering, and deployment under one roof — we design,
+              build, integrate, and ship AI systems that do real work.
+            </p>
 
-          <motion.p
-            className="measure mt-8 text-subtitle text-fg-2"
-            initial={{ opacity: 0, y: 16 }}
-            animate={{ opacity: 1, y: 0 }}
-            transition={{ duration: 0.7, ease: EASE, delay: d(0.18) }}
-          >
-            Strategy, engineering, and deployment under one roof — we design,
-            build, integrate, and ship AI systems that do real work.
-          </motion.p>
+            <div className="mt-10 flex flex-wrap items-center gap-8">
+              <Button
+                variant="primary"
+                href="#contact"
+                onClick={(e) => {
+                  e.preventDefault();
+                  scrollToId("contact");
+                }}
+              >
+                Start a conversation
+              </Button>
+              <Button
+                variant="tertiary"
+                href="#work"
+                onClick={(e) => {
+                  e.preventDefault();
+                  scrollToId("work");
+                }}
+              >
+                See the work
+              </Button>
+            </div>
+          </div>
+        </div>
+      </div>
 
-          <motion.div
-            className="mt-12"
-            initial={{ opacity: 0, y: 16 }}
-            animate={{ opacity: 1, y: 0 }}
-            transition={{ duration: 0.7, ease: EASE, delay: d(0.3) }}
-          >
-            <Button
-              variant="primary"
-              href="#contact"
-              onClick={(e) => {
-                e.preventDefault();
-                scrollToId("contact");
-              }}
-            >
-              Start a conversation
-            </Button>
-          </motion.div>
+      {/* ---- Proof band — structure only, no invented clients (§9) --------- */}
+      <div className="mx-auto w-full max-w-6xl px-6 md:px-10 lg:px-16">
+        <p className="eyebrow mb-6">Trusted by [PLACEHOLDER]</p>
+        <div className="marquee border-y border-line">
+          <div className="marquee-track">
+            {/* Two passes of the same row. The second is the one that makes the
+                loop seamless, so it is presentational and hidden from assistive
+                tech — otherwise every client is announced twice. */}
+            {[0, 1].map((copy) => (
+              <ul
+                key={copy}
+                className="flex"
+                aria-hidden={copy === 1 || undefined}
+              >
+                {PROOF.map((label, i) => (
+                  <li
+                    key={i}
+                    className="flex min-h-24 w-56 shrink-0 items-center justify-center border-l border-line px-4"
+                  >
+                    <span className="font-mono text-xs text-fg-3">{label}</span>
+                  </li>
+                ))}
+              </ul>
+            ))}
+          </div>
         </div>
       </div>
     </section>
