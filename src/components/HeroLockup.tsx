@@ -20,7 +20,7 @@ const CELLS = Array.from({ length: MAX_LEN }, (_, i) => BRAND[i] ?? "");
  * common ancestor to be set on.
  *
  * With the cycle disabled — reduced motion, or the band scrolled away — this
- * renders its own resting state: a static <PLACEHOLDER> at the same size, in
+ * renders its own resting state: a static <PLACEHOLDERWORKS> at the same size, in
  * the same box, pixel-identical to the animated mark between words. There is
  * no separate reduced-motion branch because there does not need to be one.
  */
@@ -46,8 +46,7 @@ export function HeroLockup() {
       className="wm flex flex-col items-start gap-2 lg:flex-row lg:items-center lg:gap-4"
     >
       <span className="flex items-center gap-3 text-wordmark">
-        {/* The PNG carries the ink ground, so on the band it reads as the
-            crimson mark alone. */}
+        {/* Transparent PNG: the crimson mark alone, straight on the band. */}
         <img
           src="/images/favicon.png"
           alt=""
@@ -74,11 +73,11 @@ export function HeroLockup() {
         {/* The name, once, for anyone who cannot see the cycle. Never a live
             region: a wordmark that announces itself every few seconds forever
             would be unusable. */}
-        <span className="sr-only">Placeholder</span>
+        <span className="sr-only">Placeholderworks</span>
       </span>
 
       <span className="wm-badge mono-ui border border-white/25 px-2 py-1 text-white/60">
-        AI Engineering
+        Applied AI Engineering
       </span>
     </div>
   );

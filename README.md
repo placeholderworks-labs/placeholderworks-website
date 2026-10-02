@@ -1,4 +1,4 @@
-# Placeholder — landing site
+# Placeholderworks — landing site
 
 Single-page, dark-editorial marketing site for an AI engineering &
 implementation partner. Built to the brief in [CLAUDE.md](CLAUDE.md), with the
@@ -41,7 +41,6 @@ Replace the clearly-marked placeholders — never ship invented data:
 - `[CONTACT_ENDPOINT]` in [src/sections/Invitation.tsx](src/sections/Invitation.tsx) — the form POSTs here (until set, it simulates a successful submit).
 - `[PLACEHOLDER@EMAIL]`, social/legal `[PLACEHOLDER_URL]` in the footer.
 - The `[PLACEHOLDER]` case-study fields in [src/sections/Work.tsx](src/sections/Work.tsx).
-- The company name `Placeholder` throughout, once decided.
 
 ## Accessibility & motion
 

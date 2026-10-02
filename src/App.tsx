@@ -6,6 +6,7 @@ import { Thesis } from "@/sections/Thesis";
 import { Process } from "@/sections/Process";
 import { Capabilities } from "@/sections/Capabilities";
 import { Work } from "@/sections/Work";
+import { Faq } from "@/sections/Faq";
 import { Invitation } from "@/sections/Invitation";
 import { Wordmark } from "@/components/Wordmark";
 import { Footer } from "@/sections/Footer";
@@ -13,9 +14,6 @@ import { usePath } from "@/lib/router";
 import { useDocumentMeta } from "@/hooks/useDocumentMeta";
 import { Services } from "@/pages/Services";
 import { Portfolio } from "@/pages/Portfolio";
-import { Blogs } from "@/pages/Blogs";
-import { Faq } from "@/pages/Faq";
-import { ContactUs } from "@/pages/ContactUs";
 import { Privacy } from "@/pages/Privacy";
 import { Terms } from "@/pages/Terms";
 import { NotFound } from "@/pages/NotFound";
@@ -23,18 +21,15 @@ import { NotFound } from "@/pages/NotFound";
 const PAGES: Record<string, () => React.ReactElement> = {
   "/services": Services,
   "/portfolio": Portfolio,
-  "/blogs": Blogs,
-  "/faq": Faq,
-  "/contact-us": ContactUs,
   "/privacy": Privacy,
   "/terms": Terms,
 };
 
 function Home() {
   useDocumentMeta({
-    title: "AI engineering & implementation",
+    title: "Applied AI engineering & implementation",
     description:
-      "Placeholder builds and deploys AI systems that solve real business problems — from idea to production.",
+      "Placeholderworks builds and deploys AI systems that solve real business problems, from idea to production.",
     path: "/",
   });
 
@@ -55,6 +50,7 @@ function Home() {
         <Process />
         <Capabilities />
         <Work />
+        <Faq />
         <Invitation />
       </main>
 

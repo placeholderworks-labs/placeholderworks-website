@@ -5,6 +5,7 @@ import { HeroLockup } from "@/components/HeroLockup";
 import { useReducedMotion } from "@/hooks/useReducedMotion";
 import { useGridBlips } from "@/hooks/useGridBlips";
 import { scrollToId } from "@/lib/utils";
+import { WHATSAPP_URL } from "@/lib/contact";
 
 /** The dark band is exactly this many grid rows tall. */
 const ROWS = 7;
@@ -27,15 +28,18 @@ function columnsFor(width: number): number {
   return Math.ceil(width / CELL) + 1;
 }
 
-/** Structural proof band. Real logos drop straight into these cells (§9). */
+/**
+ * Where our clients have come from. Only four marks, so each pass of the
+ * strip sets them twice, otherwise one pass is narrower than a desktop row and
+ * the loop shows a gap.
+ */
 const PROOF = [
-  "[CLIENT LOGO]",
-  "[CLIENT LOGO]",
-  "[CLIENT LOGO]",
-  "[CLIENT LOGO]",
-  "[CLIENT LOGO]",
-  "[CLIENT LOGO]",
+  { name: "RentaLease", src: "/images/logos/rentalease.svg", h: "h-10", label: true },
+  { name: "Google", src: "/images/logos/google.svg", h: "h-7" },
+  { name: "Adam Vacations", src: "/images/logos/adam-vacations.png", h: "h-10" },
+  { name: "Chitkara University", src: "/images/logos/chitkara-university.svg", h: "h-10" },
 ];
+const PASS = [...PROOF, ...PROOF];
 
 /**
  * Opening scene (CLAUDE.md §6). A ruled dark band carrying the identity, a
@@ -127,27 +131,23 @@ export function Hero() {
       {/* ---- Hard cut to white -------------------------------------------- */}
       <div className="mx-auto w-full max-w-6xl px-6 py-24 md:px-10 md:py-32 lg:px-16">
         <div className="grid gap-14 lg:grid-cols-[1.15fr_1fr] lg:gap-20">
-          <h1 className="text-hero text-fg">
-            We build AI that makes it
-            <span className="mt-2 block font-mono text-accent [font-size:0.42em] [letter-spacing:-0.01em]">
-              [ to production ]
-            </span>
+          <h1 className="max-w-[12ch] text-hero text-fg">
+            We build AI that makes it{" "}
+            <span className="text-accent">to production.</span>
           </h1>
 
-          <div className="lg:pt-4">
+          <div className="lg:pt-3">
             <p className="measure text-subtitle text-fg-2">
-              Strategy, engineering, and deployment under one roof — we design,
+              Strategy, engineering, and deployment under one roof. We design,
               build, integrate, and ship AI systems that do real work.
             </p>
 
             <div className="mt-10 flex flex-wrap items-center gap-8">
               <Button
                 variant="primary"
-                href="#contact"
-                onClick={(e) => {
-                  e.preventDefault();
-                  scrollToId("contact");
-                }}
+                href={WHATSAPP_URL}
+                target="_blank"
+                rel="noopener noreferrer"
               >
                 Start a conversation
               </Button>
@@ -168,7 +168,7 @@ export function Hero() {
 
       {/* ---- Proof band — structure only, no invented clients (§9) --------- */}
       <div className="mx-auto w-full max-w-6xl px-6 md:px-10 lg:px-16">
-        <p className="eyebrow mb-6">Trusted by [PLACEHOLDER]</p>
+        <p className="eyebrow mb-6">Our clients come from</p>
         <div className="marquee border-y border-line">
           <div className="marquee-track">
             {/* Two passes of the same row. The second is the one that makes the
@@ -180,12 +180,25 @@ export function Hero() {
                 className="flex"
                 aria-hidden={copy === 1 || undefined}
               >
-                {PROOF.map((label, i) => (
+                {PASS.map((logo, i) => (
                   <li
                     key={i}
-                    className="flex min-h-24 w-56 shrink-0 items-center justify-center border-l border-line px-4"
+                    // Within a pass the second set is a repeat as well.
+                    aria-hidden={i >= PROOF.length || undefined}
+                    className="flex min-h-24 w-56 shrink-0 items-center justify-center gap-3 border-l border-line px-6"
                   >
-                    <span className="font-mono text-xs text-fg-3">{label}</span>
+                    <img
+                      src={logo.src}
+                      alt={logo.label ? "" : logo.name}
+                      loading="lazy"
+                      decoding="async"
+                      className={`${logo.h} w-auto max-w-full object-contain`}
+                    />
+                    {logo.label && (
+                      <span className="text-lg font-semibold tracking-tight text-fg">
+                        {logo.name}
+                      </span>
+                    )}
                   </li>
                 ))}
               </ul>

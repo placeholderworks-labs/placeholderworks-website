@@ -1,0 +1,44 @@
+<svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 100 100" fill="none">
+  <defs>
+    <linearGradient id="roofGrad" x1="0%" y1="0%" x2="100%" y2="0%">
+      <stop offset="0%" stop-color="#7EC827"/>
+      <stop offset="100%" stop-color="#00B5A0"/>
+    </linearGradient>
+  </defs>
+
+  <!-- Pin/key circle outline -->
+  <path
+    d="M50 6 C27 6 8 25 8 48 C8 65 20 79 36 85 L44 94 L50 100 L56 94 L64 85 C80 79 92 65 92 48 C92 25 73 6 50 6 Z"
+    fill="#0F2A47"
+  />
+
+  <!-- White inner area -->
+  <path
+    d="M50 14 C31 14 16 29 16 48 C16 62 24 74 36 80 L44 89 L50 95 L56 89 L64 80 C76 74 84 62 84 48 C84 29 69 14 50 14 Z"
+    fill="white"
+  />
+
+  <!-- Key shaft lower part (dark navy on white bg) -->
+  <rect x="45" y="72" width="10" height="22" rx="2" fill="#0F2A47"/>
+  <rect x="51" y="82" width="8" height="4" rx="1" fill="#0F2A47"/>
+  <rect x="51" y="89" width="6" height="4" rx="1" fill="#0F2A47"/>
+
+  <!-- House roof (green gradient) -->
+  <polygon points="20,55 50,28 80,55" fill="url(#roofGrad)"/>
+
+  <!-- Chimney -->
+  <rect x="62" y="36" width="7" height="13" fill="#00B5A0"/>
+
+  <!-- House body / wall -->
+  <rect x="30" y="55" width="40" height="22" fill="white"/>
+
+  <!-- Window (2x2 grid) -->
+  <rect x="43" y="58" width="6" height="6" rx="0.5" fill="#0F2A47"/>
+  <rect x="51" y="58" width="6" height="6" rx="0.5" fill="#0F2A47"/>
+  <rect x="43" y="66" width="6" height="6" rx="0.5" fill="#0F2A47"/>
+  <rect x="51" y="66" width="6" height="6" rx="0.5" fill="#0F2A47"/>
+
+  <!-- Cover bottom walls (overlap key shaft area) -->
+  <rect x="30" y="72" width="15" height="5" fill="white"/>
+  <rect x="55" y="72" width="15" height="5" fill="white"/>
+</svg>

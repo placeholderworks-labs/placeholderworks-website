@@ -1,73 +1,60 @@
+import { ArrowRight } from "lucide-react";
 import { Section } from "@/components/Section";
+import { Button } from "@/components/Button";
+import { ServiceVideo } from "@/components/ServiceVideo";
+import { FEATURED } from "@/lib/services";
 
-interface Capability {
-  problem: string;
-  build: string;
-  outcome: string;
-}
-
-/** Framed as problem → solution → outcome, never a buzzword grid (§6). */
-const CAPABILITIES: Capability[] = [
-  {
-    problem:
-      "Your team answers the same questions from scattered documents all day.",
-    build:
-      "A retrieval system (RAG) grounded in your own knowledge, wired into the tools where people already ask.",
-    outcome: "Trusted answers in seconds, with citations back to the source.",
-  },
-  {
-    problem: "A core workflow eats hours of repetitive, manual judgment.",
-    build:
-      "Agentic automation that runs the process end to end, keeping humans on the decisions that actually matter.",
-    outcome: "Cycle times drop and the team moves to higher-value work.",
-  },
-  {
-    problem: "You have models in notebooks and nothing in production.",
-    build:
-      "Evaluation, monitoring, and deployment infrastructure so AI ships safely and stays reliable under load.",
-    outcome: "A repeatable path from prototype to production you can trust.",
-  },
-  {
-    problem: "Customers wait on hold for answers a system could give instantly.",
-    build:
-      "Voice and conversational AI integrated with your operational systems, not bolted on beside them.",
-    outcome: "Faster resolutions, available around the clock.",
-  },
-];
-
+/** Breadth, deeper in. Each of these has its own entry on /services. */
 const BREADTH = [
-  "AI strategy",
-  "Generative AI",
-  "Custom applications",
-  "Agents",
-  "LLM integration",
-  "Enterprise integration",
-  "Evals & monitoring",
-  "AI infrastructure",
+  "Calling agents",
+  "Live call transfer",
+  "Voice bots that act",
+  "Website bots & agents",
+  "CRM & ERP via WhatsApp",
+  "Email classifiers",
+  "Workforce automation",
+  "AI native apps",
+  "Shorts automation",
+  "Eval engines",
+  "QA automation",
+  "Voice analytics",
 ];
 
+/**
+ * The home page's services: a few shown working, each with its demo at full
+ * width, and the rest a click away on /services.
+ */
 export function Capabilities() {
   return (
-    <Section id="capabilities" index="03" eyebrow="Capabilities">
-      <h2 className="max-w-[20ch] text-title text-fg">
-        We match the technology to the problem — not the other way around.
-      </h2>
+    <Section id="services" index="03" eyebrow="What we build">
+      <div className="flex flex-wrap items-end justify-between gap-8">
+        <h2 className="max-w-[20ch] text-title text-fg">
+          If it can be automated, we build it.
+        </h2>
+        <p className="measure text-body text-fg-2">
+          We match the technology to the problem, not the other way around, and
+          we stay until it runs in production.
+        </p>
+      </div>
 
-      <div className="mt-16 border-t border-line">
-        {CAPABILITIES.map((cap, i) => (
-          <article key={i} className="border-b border-line py-12">
-            <div className="grid gap-8 lg:grid-cols-[1.1fr_1fr] lg:gap-20">
-              <h3 className="text-subtitle text-fg">{cap.problem}</h3>
-              <div className="grid gap-8 sm:grid-cols-2 lg:gap-12">
-                <div>
-                  <p className="eyebrow mb-3">What we build</p>
-                  <p className="text-body text-fg-2">{cap.build}</p>
-                </div>
-                <div>
-                  <p className="eyebrow mb-3 text-accent">Outcome</p>
-                  <p className="text-body text-fg-2">{cap.outcome}</p>
-                </div>
-              </div>
+      <p className="eyebrow mt-16 mb-6">Featured</p>
+      <div className="border-t border-line">
+        {FEATURED.map((s, i) => (
+          <article key={s.name} className="border-b border-line py-14">
+            {/* Stacked, not side by side: beside the copy the title only had
+                half the row and a name like "Real-time WhatsApp chatbots"
+                broke over three lines. */}
+            <p className="eyebrow mb-4 flex gap-4">
+              <span className="text-accent">
+                {String(i + 1).padStart(2, "0")}
+              </span>
+              <span className="text-fg-3">{s.modality}</span>
+            </p>
+            <h3 className="text-display text-fg max-sm:text-[clamp(1.75rem,8.5vw,2.25rem)]">{s.name}</h3>
+            <p className="measure mt-6 text-body text-fg-2">{s.body}</p>
+
+            <div className="mt-10">
+              <ServiceVideo video={s.video} />
             </div>
           </article>
         ))}
@@ -84,6 +71,13 @@ export function Capabilities() {
               {b}
             </p>
           ))}
+        </div>
+
+        <div className="mt-10">
+          <Button variant="secondary" href="/services">
+            Every service, by modality and domain
+            <ArrowRight size={16} aria-hidden />
+          </Button>
         </div>
       </div>
     </Section>

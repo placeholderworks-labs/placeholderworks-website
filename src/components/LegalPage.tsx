@@ -1,19 +1,37 @@
+import type { ReactNode } from "react";
 import { Section } from "@/components/Section";
 import { PageLayout } from "@/components/PageLayout";
 import type { RouteMeta } from "@/lib/routes";
 
 export interface Clause {
   heading: string;
-  body: string;
+  /** One or more paragraphs. */
+  body: ReactNode;
+}
+
+export const INLINE_LINK =
+  "text-fg underline decoration-line underline-offset-4 transition-colors hover:text-accent hover:decoration-accent";
+
+/** The website's name, always linked wherever the documents mention it. */
+export function SiteLink() {
+  return (
+    <a href="https://placeholderworks.com" className={INLINE_LINK}>
+      placeholderworks.com
+    </a>
+  );
+}
+
+export function MailLink({ email }: { email: string }) {
+  return (
+    <a href={`mailto:${email}`} className={INLINE_LINK}>
+      {email}
+    </a>
+  );
 }
 
 /**
- * The shared skeleton behind Privacy and Terms.
- *
- * Deliberately no drafted legal text. CLAUDE.md §9 forbids fabricating this
- * kind of content, and generated policy prose is worse than useless — it reads
- * as binding while describing practices the company may not actually follow.
- * The structure is real; every clause body is a `[PLACEHOLDER]` for counsel.
+ * The shared skeleton behind Privacy and Terms. The clause text is written
+ * only from what the company has supplied; nothing beyond that is drafted.
  */
 export function LegalPage({
   route,
@@ -62,7 +80,9 @@ export function LegalPage({
                   </span>
                   <div>
                     <h2 className="text-subtitle text-fg">{c.heading}</h2>
-                    <p className="measure mt-4 text-body text-fg-2">{c.body}</p>
+                    <div className="measure mt-4 flex flex-col gap-4 text-body text-fg-2">
+                      {c.body}
+                    </div>
                   </div>
                 </div>
               </section>

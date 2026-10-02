@@ -1,13 +1,12 @@
 import { useEffect, type RefObject } from "react";
 
 /**
- * The cycle, in order. PLACEHOLDER is both the rest state and the longest word
+ * The cycle, in order. PLACEHOLDERWORKS is both the rest state and the longest word
  * in the set — which is what lets the cell box be fixed: reserving room for it
  * costs nothing the resting mark did not already occupy, and the closing
  * bracket can then hug each word with a transform instead of a width.
  */
 export const WORDS = [
-  "PLACEHOLDER",
   "DESIGN",
   "ARCHITECT",
   "BUILD",
@@ -26,8 +25,12 @@ export const MAX_LEN = BRAND.length;
 const OUT = 200;
 const IN = 320;
 
-/** Per-cell offset: the word dissolves tail-first and rebuilds head-first. */
-const STAGGER = 22;
+/**
+ * Per-cell offset: the word dissolves tail-first and rebuilds head-first.
+ * Scaled to the sixteen-cell brand so a full transition still takes ~970ms,
+ * which keeps the lockup at rest ~71% of the cycle.
+ */
+const STAGGER = 15;
 
 /** One glyph swap per this many ms while a cell is scrambling. */
 const SWAP_MS = 70;
@@ -256,7 +259,7 @@ export function useWordCycle(
       root.removeEventListener("focusout", onLeave);
 
       // Restore the resting mark so a remount — or reduced motion switched on
-      // mid-cycle — lands on a clean <PLACEHOLDER>.
+      // mid-cycle — lands on a clean <PLACEHOLDERWORKS>.
       root.style.removeProperty("--wm-shift");
       root.dataset.wm = "brand";
       const kids = cells.children;

@@ -1,6 +1,6 @@
-# CLAUDE.md — Placeholder (AI Services Landing Page)
+# CLAUDE.md — Placeholderworks (AI Services Landing Page)
 
-> Company name is **"Placeholder"** until decided. Use it verbatim wherever a name is needed.
+> Company name is **"Placeholderworks"** (domain placeholderworks.com). Use it verbatim wherever a name is needed.
 
 ---
 
@@ -208,7 +208,7 @@ held. It reverses on the way back up, and under `prefers-reduced-motion` the res
 state renders outright (see `useInView`).
 
 **Exception 5 — the hero wordmark cycle.** The mark in the dark band cycles
-`<PLACEHOLDER> → <DESIGN> → <ARCHITECT> → <BUILD> → <DEPLOY>`, each word
+`<PLACEHOLDERWORKS> → <DESIGN> → <ARCHITECT> → <BUILD> → <DEPLOY>`, each word
 dissolving into ASCII fragments and reconstructing a character at a time (see
 `useWordCycle`). It exists because the identity was the one inert thing in a band
 whose entire character is motion — and because the verbs state the §2 positioning,
@@ -219,7 +219,7 @@ layout property is ever animated and the page can never shift; it holds far long
 than it moves (at rest ~71% of the time, on a period deliberately co-prime with the
 grid blips so the two never beat against each other); it pauses under the pointer,
 stops entirely when the band leaves the viewport, and never starts at all under
-`prefers-reduced-motion`, where the mark simply renders `<PLACEHOLDER>`. The cycling
+`prefers-reduced-motion`, where the mark simply renders `<PLACEHOLDERWORKS>`. The cycling
 letters are `aria-hidden` with the name exposed once beside them — never a live
 region.
 

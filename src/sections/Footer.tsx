@@ -3,12 +3,15 @@ import { SECTIONS } from "@/lib/sections";
 import { Link } from "@/components/Link";
 import { usePath, navigate } from "@/lib/router";
 import { COMPANY_ROUTES, LEGAL_ROUTES } from "@/lib/routes";
+import { EMAIL, SOCIALS } from "@/lib/contact";
 
 const NAV = SECTIONS.filter((s) => s.nav);
-const SOCIAL = ["LinkedIn", "GitHub", "X"];
 const YEAR = 2026; // build-time constant; update on release
 
-/** Minimal footer (CLAUDE.md §7, §18): contact, essential nav, social, legal. */
+/**
+ * Minimal footer (CLAUDE.md §7, §18): contact, essential nav, social, legal.
+ * The only place on the site that lists the contact details.
+ */
 export function Footer() {
   const home = usePath() === "/";
 
@@ -31,16 +34,16 @@ export function Footer() {
               onClick={go("opening")}
               className="text-2xl font-semibold tracking-tight text-fg"
             >
-              Placeholder<span className="text-accent">.</span>
+              Placeholderworks<span className="text-accent">.</span>
             </a>
             <p className="measure mt-4 text-body text-fg-2">
               We build and deploy AI systems that do real work.
             </p>
             <a
-              href="mailto:[PLACEHOLDER@EMAIL]"
+              href={`mailto:${EMAIL}`}
               className="mt-6 inline-block font-mono text-sm text-fg-2 underline decoration-line underline-offset-4 transition-colors hover:text-accent hover:decoration-accent"
             >
-              [PLACEHOLDER@EMAIL]
+              {EMAIL}
             </a>
           </div>
 
@@ -81,13 +84,15 @@ export function Footer() {
             <div>
               <p className="eyebrow mb-4 text-fg-3">Elsewhere</p>
               <ul className="flex flex-col gap-3">
-                {SOCIAL.map((s) => (
-                  <li key={s}>
+                {SOCIALS.map((s) => (
+                  <li key={s.label}>
                     <a
-                      href="[PLACEHOLDER_URL]"
+                      href={s.href}
+                      target="_blank"
+                      rel="noopener noreferrer"
                       className="text-sm text-fg-2 transition-colors hover:text-fg"
                     >
-                      {s}
+                      {s.label}
                     </a>
                   </li>
                 ))}
@@ -97,7 +102,7 @@ export function Footer() {
         </div>
 
         <div className="mt-16 flex flex-col gap-3 border-t border-line pt-8 font-mono text-xs text-fg-3 sm:flex-row sm:items-center sm:justify-between">
-          <span>© {YEAR} Placeholder. All rights reserved.</span>
+          <span>© {YEAR} Placeholderworks. All rights reserved.</span>
           <span className="flex gap-6">
             {LEGAL_ROUTES.map((r) => (
               <Link

@@ -1,54 +1,36 @@
 <?xml version="1.0" encoding="UTF-8"?>
 <!--
-  Keep in step with src/lib/routes.ts — that file is the source of truth for
-  which paths exist. When blog posts become real pages, add one entry each.
+  Keep in step with src/lib/routes.ts, the source of truth for which paths
+  exist.
 -->
 <urlset xmlns="http://www.sitemaps.org/schemas/sitemap/0.9">
   <url>
     <loc>https://placeholderworks.com</loc>
-    <lastmod>2026-09-17T00:00:00.000Z</lastmod>
+    <lastmod>2026-10-03T00:00:00.000Z</lastmod>
     <changefreq>weekly</changefreq>
     <priority>1.0</priority>
   </url>
   <url>
     <loc>https://placeholderworks.com/services</loc>
-    <lastmod>2026-09-17T00:00:00.000Z</lastmod>
+    <lastmod>2026-10-03T00:00:00.000Z</lastmod>
     <changefreq>weekly</changefreq>
     <priority>0.9</priority>
   </url>
   <url>
     <loc>https://placeholderworks.com/portfolio</loc>
-    <lastmod>2026-09-17T00:00:00.000Z</lastmod>
+    <lastmod>2026-10-03T00:00:00.000Z</lastmod>
     <changefreq>weekly</changefreq>
     <priority>0.8</priority>
-  </url>
-  <url>
-    <loc>https://placeholderworks.com/faq</loc>
-    <lastmod>2026-09-17T00:00:00.000Z</lastmod>
-    <changefreq>weekly</changefreq>
-    <priority>0.9</priority>
-  </url>
-  <url>
-    <loc>https://placeholderworks.com/blogs</loc>
-    <lastmod>2026-09-17T00:00:00.000Z</lastmod>
-    <changefreq>daily</changefreq>
-    <priority>0.8</priority>
-  </url>
-  <url>
-    <loc>https://placeholderworks.com/contact-us</loc>
-    <lastmod>2026-09-17T00:00:00.000Z</lastmod>
-    <changefreq>monthly</changefreq>
-    <priority>0.7</priority>
   </url>
   <url>
     <loc>https://placeholderworks.com/privacy</loc>
-    <lastmod>2026-09-17T00:00:00.000Z</lastmod>
+    <lastmod>2026-10-03T00:00:00.000Z</lastmod>
     <changefreq>yearly</changefreq>
     <priority>0.3</priority>
   </url>
   <url>
     <loc>https://placeholderworks.com/terms</loc>
-    <lastmod>2026-09-17T00:00:00.000Z</lastmod>
+    <lastmod>2026-10-03T00:00:00.000Z</lastmod>
     <changefreq>yearly</changefreq>
     <priority>0.3</priority>
   </url>

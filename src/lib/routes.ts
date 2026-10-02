@@ -27,7 +27,7 @@ export interface RouteMeta {
 }
 
 export const SITE_URL = "https://placeholderworks.com";
-export const SITE_NAME = "Placeholder";
+export const SITE_NAME = "Placeholderworks";
 
 export const ROUTES: readonly RouteMeta[] = [
   {
@@ -35,10 +35,10 @@ export const ROUTES: readonly RouteMeta[] = [
     label: "Services",
     title: "Services",
     description:
-      "What we build: AI strategy, custom applications, agents, LLM integrations, and the work of getting them into production.",
+      "Voice and calling agents, WhatsApp and website chatbots, email and workflow automation, AI native apps, ChatGPT apps, evals and QA engines, organised by modality and by domain.",
     eyebrow: "What we do",
-    heading: "Services",
-    lede: "[PLACEHOLDER] One or two sentences framing how the work is scoped, and what a client is actually buying.",
+    heading: "If it can be automated, we build it.",
+    lede: "Every service below ends in a system running in production. Find yours by how people reach you, or by the industry you work in.",
     group: "company",
   },
   {
@@ -46,43 +46,10 @@ export const ROUTES: readonly RouteMeta[] = [
     label: "Portfolio",
     title: "Portfolio",
     description:
-      "Selected work: the problem, the system we built, and what changed once it was running.",
+      "Client work: the problem, the system we built, and what is running today.",
     eyebrow: "Evidence",
     heading: "Portfolio",
-    lede: "[PLACEHOLDER] One or two sentences on the kind of problems shown here and how results are measured.",
-    group: "company",
-  },
-  {
-    path: "/blogs",
-    label: "Blog",
-    title: "Blog",
-    description:
-      "Notes on building and deploying AI systems — architecture, evaluation, and what production actually demands.",
-    eyebrow: "Writing",
-    heading: "Blog",
-    lede: "[PLACEHOLDER] One or two sentences on what gets written about here and who it is for.",
-    group: "company",
-  },
-  {
-    path: "/faq",
-    label: "FAQ",
-    title: "FAQ",
-    description:
-      "Common questions about how we scope, price, staff and deliver AI engagements.",
-    eyebrow: "Questions",
-    heading: "Frequently asked",
-    lede: "[PLACEHOLDER] One or two sentences setting expectations, and where to go if a question is not answered here.",
-    group: "company",
-  },
-  {
-    path: "/contact-us",
-    label: "Contact",
-    title: "Contact",
-    description:
-      "Start a conversation about an AI project — tell us the problem and we will tell you what we would build.",
-    eyebrow: "Invitation",
-    heading: "Start a conversation.",
-    lede: "Tell us what breaks today and what better would be worth. No form-filling ritual — a sentence or two about the problem is enough to begin.",
+    lede: "The projects we have shipped for clients: what was broken, what we built, and what is live now.",
     group: "company",
   },
   {
@@ -90,21 +57,20 @@ export const ROUTES: readonly RouteMeta[] = [
     label: "Privacy",
     title: "Privacy Policy",
     description:
-      "How Placeholder collects, uses, stores and shares personal information.",
+      "What data Placeholderworks collects, why, and how to have it corrected or deleted.",
     eyebrow: "Legal",
     heading: "Privacy Policy",
-    lede: "[PLACEHOLDER] Replace with the reviewed policy. Nothing on this page is legal text yet.",
+    lede: "What we collect, why we collect it, and how to reach us about it.",
     group: "legal",
   },
   {
     path: "/terms",
     label: "Terms",
-    title: "Terms of Service",
-    description:
-      "The terms governing use of the Placeholder website and services.",
+    title: "Terms & Conditions",
+    description: "The terms that apply when you use the Placeholderworks website.",
     eyebrow: "Legal",
-    heading: "Terms of Service",
-    lede: "[PLACEHOLDER] Replace with the reviewed terms. Nothing on this page is legal text yet.",
+    heading: "Terms & Conditions",
+    lede: "The terms that apply when you use this website.",
     group: "legal",
   },
 ] as const;

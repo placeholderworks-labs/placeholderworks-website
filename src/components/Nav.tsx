@@ -5,6 +5,7 @@ import { SECTIONS } from "@/lib/sections";
 import { scrollToId } from "@/lib/utils";
 import { usePath, navigate } from "@/lib/router";
 import { fade } from "@/lib/motion";
+import { WHATSAPP_URL } from "@/lib/contact";
 import { Button } from "./Button";
 import { cn } from "@/lib/utils";
 
@@ -76,7 +77,7 @@ export function Nav() {
           Home
         </a>
 
-        <nav className="hidden items-center md:flex" aria-label="Primary">
+        <nav className="hidden items-center lg:flex" aria-label="Primary">
           <ul className="flex items-center">
             {LINKS.map((s) => (
               <li key={s.id}>
@@ -117,7 +118,7 @@ export function Nav() {
         <button
           type="button"
           className={cn(
-            "flex h-11 w-11 items-center justify-center transition-colors md:hidden",
+            "flex h-11 w-11 items-center justify-center transition-colors lg:hidden",
             scrolled || open ? "text-fg" : "text-white"
           )}
           aria-label={open ? "Close menu" : "Open menu"}
@@ -131,7 +132,7 @@ export function Nav() {
       <AnimatePresence>
         {open && (
           <motion.div
-            className="fixed inset-0 top-0 z-40 flex flex-col justify-center gap-0 bg-bg-0 px-6 md:hidden"
+            className="fixed inset-0 top-0 z-40 flex flex-col justify-center gap-0 bg-bg-0 px-6 md:px-10 lg:hidden"
             variants={fade}
             initial="hidden"
             animate="visible"
@@ -149,7 +150,13 @@ export function Nav() {
               </a>
             ))}
             <div className="mt-10">
-              <Button variant="primary" href={hrefFor("contact")} onClick={go("contact")}>
+              <Button
+                variant="primary"
+                href={WHATSAPP_URL}
+                target="_blank"
+                rel="noopener noreferrer"
+                onClick={() => setOpen(false)}
+              >
                 Start a conversation
               </Button>
             </div>

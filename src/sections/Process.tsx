@@ -34,7 +34,7 @@ const STEPS: Step[] = [
   {
     n: "002",
     title: "Design",
-    body: "Architecture, data flow, evals — and the smallest thing that proves value.",
+    body: "Architecture, data flow, evals, and the smallest thing that proves value.",
     icon: DraftingCompass,
   },
   {

@@ -33,7 +33,7 @@ export function useDocumentMeta(opts: {
 
   useEffect(() => {
     const full =
-      path === "/" ? `${SITE_NAME} — ${title}` : `${title} — ${SITE_NAME}`;
+      path === "/" ? `${SITE_NAME} | ${title}` : `${title} | ${SITE_NAME}`;
     document.title = full;
 
     tag<HTMLMetaElement>('meta[name="description"]', () => {

@@ -16,9 +16,11 @@ export const SECTIONS: readonly SectionMeta[] = [
   { id: "opening", index: "00", label: "Start", nav: false },
   { id: "thesis", index: "01", label: "Thesis", nav: false },
   { id: "process", index: "02", label: "How we work", nav: true },
-  { id: "capabilities", index: "03", label: "Capabilities", nav: true },
+  { id: "services", index: "03", label: "What we build", nav: true },
   { id: "work", index: "04", label: "Evidence", nav: true },
-  { id: "contact", index: "05", label: "Invitation", nav: true },
+  { id: "faq", index: "05", label: "FAQ", nav: true },
+  // Reached through the nav's own Contact cell, so not listed twice.
+  { id: "contact", index: "06", label: "Invitation", nav: false },
 ] as const;
 
 export const SECTION_IDS = SECTIONS.map((s) => s.id);
