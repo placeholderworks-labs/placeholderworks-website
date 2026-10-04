@@ -41,6 +41,9 @@ const PROOF = [
 ];
 const PASS = [...PROOF, ...PROOF];
 
+/** Client strip is hidden for now. Flip to true to bring it back. */
+const SHOW_PROOF = false;
+
 /**
  * Opening scene (CLAUDE.md §6). A ruled dark band carrying the identity, a
  * hard cut to white, then the statement. Composition and type carry it; the
@@ -159,47 +162,49 @@ export function Hero() {
       </div>
 
       {/* ---- Proof band — structure only, no invented clients (§9) --------- */}
-      <div className="mx-auto w-full max-w-6xl px-6 md:px-10 lg:px-16">
-        <p className="eyebrow mb-6">Our clients come from</p>
-        <div className="marquee border-y border-line">
-          <div className="marquee-track">
-            {/* Two passes of the same row. The second is the one that makes the
-                loop seamless, so it is presentational and hidden from assistive
-                tech — otherwise every client is announced twice. */}
-            {[0, 1].map((copy) => (
-              <ul
-                key={copy}
-                className="flex"
-                aria-hidden={copy === 1 || undefined}
-              >
-                {PASS.map((logo, i) => (
-                  <li
-                    key={i}
-                    // Within a pass the second set is a repeat as well.
-                    aria-hidden={i >= PROOF.length || undefined}
-                    className="flex min-h-24 w-56 shrink-0 items-center justify-center gap-3 border-l border-line px-6"
-                  >
-                    <img
-                      src={logo.src}
-                      alt={logo.label ? "" : logo.name}
-                      width={logo.w}
-                      height={logo.h}
-                      loading="lazy"
-                      decoding="async"
-                      className={`${logo.cls} w-auto max-w-full object-contain`}
-                    />
-                    {logo.label && (
-                      <span className="text-lg font-semibold tracking-tight text-fg">
-                        {logo.name}
-                      </span>
-                    )}
-                  </li>
-                ))}
-              </ul>
-            ))}
+      {SHOW_PROOF && (
+        <div className="mx-auto w-full max-w-6xl px-6 md:px-10 lg:px-16">
+          <p className="eyebrow mb-6">Our clients come from</p>
+          <div className="marquee border-y border-line">
+            <div className="marquee-track">
+              {/* Two passes of the same row. The second is the one that makes the
+                  loop seamless, so it is presentational and hidden from assistive
+                  tech — otherwise every client is announced twice. */}
+              {[0, 1].map((copy) => (
+                <ul
+                  key={copy}
+                  className="flex"
+                  aria-hidden={copy === 1 || undefined}
+                >
+                  {PASS.map((logo, i) => (
+                    <li
+                      key={i}
+                      // Within a pass the second set is a repeat as well.
+                      aria-hidden={i >= PROOF.length || undefined}
+                      className="flex min-h-24 w-56 shrink-0 items-center justify-center gap-3 border-l border-line px-6"
+                    >
+                      <img
+                        src={logo.src}
+                        alt={logo.label ? "" : logo.name}
+                        width={logo.w}
+                        height={logo.h}
+                        loading="lazy"
+                        decoding="async"
+                        className={`${logo.cls} w-auto max-w-full object-contain`}
+                      />
+                      {logo.label && (
+                        <span className="text-lg font-semibold tracking-tight text-fg">
+                          {logo.name}
+                        </span>
+                      )}
+                    </li>
+                  ))}
+                </ul>
+              ))}
+            </div>
           </div>
         </div>
-      </div>
+      )}
     </section>
   );
 }
