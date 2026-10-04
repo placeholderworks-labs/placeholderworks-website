@@ -1,10 +1,9 @@
 import { useEffect, type RefObject } from "react";
 
 /**
- * The cycle, in order. PLACEHOLDERWORKS is both the rest state and the longest word
- * in the set — which is what lets the cell box be fixed: reserving room for it
- * costs nothing the resting mark did not already occupy, and the closing
- * bracket can then hug each word with a transform instead of a width.
+ * The cycle, in order. The first word is the rest state. The cell box is fixed
+ * at the longest word, and the closing bracket hugs each shorter word with a
+ * transform instead of a width.
  */
 export const WORDS = [
   "DESIGN",
@@ -14,7 +13,10 @@ export const WORDS = [
 ] as const;
 
 export const BRAND = WORDS[0];
-export const MAX_LEN = BRAND.length;
+export const MAX_LEN = Math.max(...WORDS.map((w) => w.length));
+
+/** Empty cells behind the resting word, before JS has measured anything. */
+export const REST_GAP = MAX_LEN - BRAND.length;
 
 /* -- Timing ---------------------------------------------------------------
    Deliberately slower than it wants to be. The grid blips underneath run on a

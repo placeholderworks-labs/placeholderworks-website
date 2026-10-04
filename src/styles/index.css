@@ -198,8 +198,20 @@
   .wm-badge {
     /* inline-block matters: transform is a no-op on a non-replaced inline box. */
     display: inline-block;
-    transform: translateX(var(--wm-shift, 0px));
     transition: transform 420ms cubic-bezier(0.22, 1, 0.36, 1);
+  }
+
+  /* Until JS measures, fall back to the resting word's gap (--wm-rest cells)
+     so the bracket hugs it on first paint and under reduced motion. The tail
+     shares the cells' font, so 1ch is one cell; the badge has its own size, so
+     it uses Geist Mono's 0.6em advance at the wordmark size. */
+  .wm-tail {
+    transform: translateX(var(--wm-shift, calc(var(--wm-rest, 0) * -1ch)));
+  }
+  .wm-badge {
+    transform: translateX(
+      var(--wm-shift, calc(var(--wm-rest, 0) * -0.6 * var(--text-wordmark)))
+    );
   }
 
   /* Below lg the badge sits on its own line under the lockup, where following

@@ -1,7 +1,7 @@
-import { useRef } from "react";
+import { useRef, type CSSProperties } from "react";
 import { useInView } from "@/hooks/useInView";
 import { useReducedMotion } from "@/hooks/useReducedMotion";
-import { BRAND, MAX_LEN, useWordCycle } from "@/hooks/useWordCycle";
+import { BRAND, MAX_LEN, REST_GAP, useWordCycle } from "@/hooks/useWordCycle";
 
 /**
  * Cell contents are a module constant, and that is load-bearing twice over.
@@ -43,6 +43,7 @@ export function HeroLockup() {
         viewRef.current = node;
       }}
       data-wm="brand"
+      style={{ "--wm-rest": REST_GAP } as CSSProperties}
       className="wm flex flex-col items-start gap-2 lg:flex-row lg:items-center lg:gap-4"
     >
       <span className="flex items-center gap-3 text-wordmark">
